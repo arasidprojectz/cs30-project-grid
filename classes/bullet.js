@@ -12,11 +12,11 @@ class Bullet {
     
   }
     
-  drawCircle(tempX, tempY) {
+  drawCircle(posX, posY) {
     fill((255,0,0));
     stroke(0);
     strokeWeight(2);
-    translate(tempX, tempY);
+    translate(posX, posY);
     rotate(PI/2);
     ellipse(this.x, this.y, this.radius, this.radius);
   }
@@ -28,8 +28,8 @@ class Bullet {
   }
 
   moveCircle() {
-    this.dx += this.ax;
-    this.dy += this.ay;
+    this.dx = this.ax;
+    this.dy = this.ay;
     this.x += this.dx;
     this.y += this.dy;
   }

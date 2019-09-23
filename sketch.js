@@ -1,53 +1,42 @@
-// Project Title
+// 
 // Al Rasid Mamun
 // Sept 9, 2019
 
 let gameSetup;
-let characterSetup;
-let letters;
-let enemy; 
+let player;
 let bullets = [];
+let tree = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
+  player = new Player(width/2, height/2);
   gameSetup = {
   };
 
-  characterSetup = {
-    x: width/2, 
-    y: height/2,
-    rectWidth: 50,
-    rectHeight: 100,
-  };
-
-  letters = {
-    w: 87,
-    a: 65,
-    s: 83,
-    d: 68,
-  };
 }
 
 
 function draw() {
   background(225);
-  // enemy.display();
-  // enemy.interect();
-  // makeCharacter();
   fireBullets();
-  console.log(bullets);
+  player.drawPlayer();
+  player.movePlayer();
 }
 
 function fireBullets() {
   for (let i=0; i<bullets.length; i++) {
-    bullets[i].drawCircle(width/2, height/2);
+    bullets[i].drawCircle(player.x, player.y);
     bullets[i].moveCircle();
   }
-
 }
 
 function mousePressed() {
   bullets.push(new Bullet());
 }
+
+function respawnTree() {
+  for (let i=0; i<bullets.length; i++) {
+    bullets[i].draw();
+  }
+} 
 
