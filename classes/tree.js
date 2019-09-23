@@ -1,9 +1,9 @@
-class tree {
+class Tree {
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.width = 50;
-        this.height = 10;
+        this.height = 100;
     }
 
     draw() {

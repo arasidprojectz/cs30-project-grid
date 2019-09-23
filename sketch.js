@@ -18,9 +18,10 @@ function setup() {
 
 function draw() {
   background(225);
-  fireBullets();
   player.drawPlayer();
   player.movePlayer();
+  respawnTree();
+  fireBullets();
 }
 
 function fireBullets() {
@@ -31,12 +32,13 @@ function fireBullets() {
 }
 
 function mousePressed() {
-  bullets.push(new Bullet());
+  bullets.push(new Bullet());  
 }
 
 function respawnTree() {
-  for (let i=0; i<bullets.length; i++) {
-    bullets[i].draw();
+  tree.push(new Tree(random(width), random(height)));
+  for (let i=0; i<tree.length; i++) {
+    tree[i].draw();
   }
 } 
 
