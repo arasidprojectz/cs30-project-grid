@@ -41,13 +41,13 @@ function draw() {
 
 function fireBullets() {
   for (let i=0; i<bullets.length; i++) {
-    bullets[i].drawCircle();
-    bullets[i].moveCircle(mouseX, mouseY);
+    bullets[i].drawCircle(width/2, height/2);
+    bullets[i].moveCircle();
   }
 
 }
 
 function mousePressed() {
-  bullets.push(new Bullet(width/2, height/2));
+  bullets.push(new Bullet());
 }
 

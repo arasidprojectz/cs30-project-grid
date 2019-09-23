@@ -1,32 +1,38 @@
 class Bullet {
-    constructor(x, y) {
-        this.x = x; 
-        this.y = y; 
-        this.radius = 15;
-        this.mousePos;
-        this.myHeading;
-    }
+  constructor() {
+    this.x = 0; 
+    this.y = 0; 
+    this.dx = 0;
+    this.dy = 0;
+    this.ax = 5;
+    this.ay= 5;
+    this.radius = 15;
+    this.mousePos;
+    this.mouseHeading;
     
-    drawCircle() {
-        fill((255,0,0));
-        stroke(0);
-        strokeWeight(2);
-        ellipse(this.x, this.y, this.radius, this.radius);
-    }
+  }
     
-    drawAim() {
-        fill(0);
-        stroke(0);
-        strokeWeight(4);
-        line()
-    }
+  drawCircle(tempX, tempY) {
+    fill((255,0,0));
+    stroke(0);
+    strokeWeight(2);
+    translate(tempX, tempY);
+    rotate(PI/2);
+    ellipse(this.x, this.y, this.radius, this.radius);
+  }
+    
+  drawAim() {
+    fill(0);
+    stroke(0);
+    strokeWeight(4);
+  }
 
-     moveCircle(mX, mY) {
-         this.mousePos = createVector();
-         this.heading = mousePos.heading(mX, mY);
-
-         
-     }
+  moveCircle() {
+    this.dx += this.ax;
+    this.dy += this.ay;
+    this.x += this.dx;
+    this.y += this.dy;
+  }
 
 
 } 
