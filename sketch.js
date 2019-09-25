@@ -16,7 +16,7 @@ function setup() {
   };
 
   timeSetup = {
-    respawnTime: 15000,
+    respawnTime: 0,
     addTime: 10000,
   };
 
@@ -27,8 +27,9 @@ function draw() {
   background(225);
   player.drawPlayer();
   player.movePlayer();
-  respawnTree();
+  // respawnTree();
   fireBullets();
+  // console.log(timeSetup.respawnTime);
 }
 
 function fireBullets() {
@@ -43,7 +44,8 @@ function mousePressed() {
 }
 
 function respawnTree() {
-  if (millis() > timeSetup.respawnTime) {
+  if (millis() > timeSetup.respawnTime + timeSetup.addTime) {
+    timeSetup.respawnTime = millis();
     tree.push(new Tree(random(width), random(height)));
   }
 

@@ -13,8 +13,4 @@ class Tree {
     strokeWeight(4);
     rect(this.x, this.y, this.width, this.height);
   }
-
-  board() {
-    
-  }
 }

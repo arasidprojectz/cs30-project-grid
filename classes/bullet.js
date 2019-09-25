@@ -28,8 +28,8 @@ class Bullet {
   }
 
   moveCircle() {
-    this.dx = this.ax;
-    this.dy = this.ay;
+    this.dx += this.ax;
+    this.dy += this.ay;
     this.x += this.dx;
     this.y += this.dy;
   }
