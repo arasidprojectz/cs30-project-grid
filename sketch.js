@@ -3,6 +3,7 @@
 // Sept 9, 2019
 
 let gameSetup;
+let timeSetup;
 let player;
 let bullets = [];
 let tree = [];
@@ -11,6 +12,12 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Player(width/2, height/2);
   gameSetup = {
+   
+  };
+
+  timeSetup = {
+    respawnTime: 15000,
+    addTime: 10000,
   };
 
 }
@@ -36,7 +43,10 @@ function mousePressed() {
 }
 
 function respawnTree() {
-  tree.push(new Tree(random(width), random(height)));
+  if (millis() > timeSetup.respawnTime) {
+    tree.push(new Tree(random(width), random(height)));
+  }
+
   for (let i=0; i<tree.length; i++) {
     tree[i].draw();
   }
