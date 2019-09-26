@@ -52,16 +52,18 @@ function draw() {
   enemy.bounceImg();
   
   // keepGameScore();
-  createCursor();
+  // createCursor();
   // generateCoins();
   fireBullets();
-  
 }
 
 function fireBullets() {
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBImg();
     bullets[i].toMousePos();
+  }
+  if (millis() > 2000) {
+    bullets;
   }
 }
 
@@ -77,21 +79,22 @@ function mousePressed() {
 //   }
 //   for (let i=0; i<coins.length; i++) {
 //     coins[i].displayCImg();
+//     coins[i].coinCollision();
+//     coins[i].keepCoinScore();
 //   }
 // } 
 
-function createCursor() {
-  stroke("grey");
-  strokeWeight(6);
-  beginShape();
-  vertex(0 + mouseX, 40 + mouseY);
-  vertex(0 + mouseX, -5 + mouseY);
-  vertex(34 + mouseX, 25 + mouseY);
-  vertex(15 + mouseX, 25 + mouseY);
-  vertex(0 + mouseX, 40 + mouseY);
-  endShape();
-}
-
+// function createCursor() {
+//   stroke("grey");
+//   strokeWeight(2);
+//   beginShape();
+//   vertex(0 + mouseX, 40 + mouseY);
+//   vertex(0 + mouseX, -5 + mouseY);
+//   vertex(34 + mouseX, 25 + mouseY);
+//   vertex(15 + mouseX, 25 + mouseY);
+//   vertex(0 + mouseX, 40 + mouseY);
+//   endShape();
+// }
 
 // function keepGameScore() {
 //   let gameScore = "0";

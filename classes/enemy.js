@@ -23,10 +23,6 @@ class Enemy { // Create the Class for Enemy
     } if (this.y > height - this.imgSize || this.y < 0) {
       this.dy *= -1;
     }
+  
   }
-  collision.bulletInteractionWEnemy = collideRectCircle(bullets.x, bullets.y, characterSetup.bulletSize, characterSetup.bulletSize, this.x, this.y, this.width, this.height);
-  if (collision.bulletInteractionWEnemy === true) {
-    
-  }
-}
 }
