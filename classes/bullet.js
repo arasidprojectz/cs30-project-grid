@@ -1,38 +1,32 @@
 class Bullet {
-  constructor() {
-    this.x = 0; 
-    this.y = 0; 
-    this.dx = 0;
-    this.dy = 0;
-    this.ax = 5;
-    this.ay= 5;
-    this.radius = 15;
-    this.mousePos;
-    this.mouseHeading;
-    
+  constructor(pX, pY, mX, mY) {
+    this.x = pX; 
+    this.y = pY; 
+    this.mX = mX; 
+    this.mY = mY;
+    this.dx = 5;
+    this.dy = 5;
+    this.radius = 15;   
   }
     
-  drawCircle(posX, posY) {
-    fill((255,0,0));
-    stroke(0);
-    strokeWeight(2);
-    translate(posX, posY);
-    rotate(PI/2);
-    ellipse(this.x, this.y, this.radius, this.radius);
+  displayBImg() {
+    image(images.bulletImg, this.x, this.y, this.radius, this.radius);
   }
     
-  drawAim() {
-    fill(0);
-    stroke(0);
-    strokeWeight(4);
+  toMousePos() {
+    if (this.mY < this.y){
+      this.y -= this.dy*5;
+    } 
+    else if (this.mY > this.y) {
+      this.y += this.dy*5;
+    }
+    if (this.mX < this.x){
+      this.x -= this.dx*5;
+    } 
+    else if (this.mX > this.x){
+      this.x += this.dx*5;
+    }
   }
-
-  moveCircle() {
-    this.dx += this.ax;
-    this.dy += this.ay;
-    this.x += this.dx;
-    this.y += this.dy;
-  }
-
-
 } 
+
+

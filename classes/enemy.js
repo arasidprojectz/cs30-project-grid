@@ -1,35 +1,32 @@
-class Enemy {
-  constructor(tempX, tempY, tempWidth, tempHeight) {
-    this.x = tempX;
-    this.y = tempY;
-    this.width = tempWidth;
-    this.height = tempHeight;
-    this.collision = false;
-  }
-  drawEnemy() {
-    fill(0, 0, 0);
-    stroke(128,128,128);
-    strokeWeight(4);  
-    rect(this.x, this.y, this.width, this.height);
+class Enemy { // Create the Class for Enemy
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.dx = random(2, 4); 
+    this.dy = random(2, 4);
+    this.imgSize = 50;
+    this.bulletInterection = false;
   }
 
-  moveEnemy() {
-
+  displayE() { // Display Image of Enemy 
+    image(images.enemyImg, this.x, this.y, this.imgSize, this.imgSize);
   }
 
-  respawn() {
-
-  }  
-
-  shootBullets() {
-
+  update() { // Update x and y with dx and dy
+    this.x += this.dx; 
+    this.y += this.dy;
   }
 
-  interectWithBullet() {
-    this.collision = collideRectCircle(characterSetup.bulletX, characterSetup.y, characterSetup.bulletSize, characterSetup.bulletSize, this.x, this.y, this.width, this.height);
-    if (this.collision === true) {
-      fill(0);
-      rect(this.x, this.y, this.width, this.height);
+  bounceImg() { // Image Bounce of Edge, Don't go off Screen
+    if (this.x > width - this.imgSize || this.x < 0) {
+      this.dx *= -1;
+    } if (this.y > height - this.imgSize || this.y < 0) {
+      this.dy *= -1;
     }
   }
-}    
+  collision.bulletInteractionWEnemy = collideRectCircle(bullets.x, bullets.y, characterSetup.bulletSize, characterSetup.bulletSize, this.x, this.y, this.width, this.height);
+  if (collision.bulletInteractionWEnemy === true) {
+    
+  }
+}
+}
