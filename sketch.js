@@ -4,22 +4,20 @@
 
 
 let player;
-let enemy;
 let gameSetup;
 let images;
 let sounds;
-let collision;
-let coins = [];
-let bullets = [];
+let enemy = [];
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Player(width/2, height/2);
-  enemy = new Enemy(random(width), random(height));
+  enemy.push(new Enemy(random(width), random(height)));  
+  // enemy = new Enemy(random(width), random(height));
   gameSetup = {
     respawnTime: 0,
-    addTime: 10000,
+    enemyTime: 8000,
     gameScore: 0,
   };
 
@@ -30,46 +28,48 @@ function setup() {
     enemyImg: loadImage("assets/enemy.png"),
     coinImg: loadImage("assets/coin.png"),
   };  
-
-  collision = {
-    enemyInteractionWPlayer: false,
-    bulletInteractionWEnemy: false,
-    coinInteractionWPlayer: false,
-  }
 }
 
 
 function draw() {
-  imageMode(CORNER);
   background(images.bgImg);
-
-  imageMode(CENTER);
-  player.displayPImg();
+  player.displayPlayer();
   player.movePlayer();
-  
-  enemy.displayE();
-  enemy.update();
-  enemy.bounceImg();
-  
+  player.drawText();
+  generateEnemy(); 
+  respawnEnemy();
   // keepGameScore();
   // createCursor();
   // generateCoins();
-  fireBullets();
+  // fireBullets();
 }
 
-function fireBullets() {
-  for (let i=0; i<bullets.length; i++) {
-    bullets[i].displayBImg();
-    bullets[i].toMousePos();
-  }
-  if (millis() > 2000) {
-    bullets;
-  }
+function generateEnemy() {
+  for (let i=0; i<enemy.length; i++) {
+    enemy[i].displayEnemy();
+    enemy[i].update();
+    enemy[i].bounceEnemy();
+    enemy[i].interactWPlayer();
+  } 
 }
 
-function mousePressed() {
-  bullets.push(new Bullet(player.x, player.y, mouseX, mouseY));  
+function respawnEnemy() {
+  if (millis() > gameSetup.respawnTime + gameSetup.enemyTime) {
+    enemy.push(new Enemy(random(width), random(height)));  
+    gameSetup.respawnTime = millis();
+  }  
 }
+
+// function fireBullets() {
+//   for (let i=0; i<bullets.length; i++) {
+//     bullets[i].displayBImg();
+//     bullets[i].toMousePos();
+//   }
+// }
+
+// function mousePressed() {
+//   bullets.push(new Bullet(player.x, player.y, mouseX, mouseY));  
+// }
 
 // function generateCoins() {
 //   if (millis() > gameSetup.respawnTime + gameSetup.addTime) {

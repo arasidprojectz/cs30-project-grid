@@ -1,28 +1,37 @@
-class Enemy { // Create the Class for Enemy
+class Enemy {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.dx = random(2, 4); 
-    this.dy = random(2, 4);
-    this.imgSize = 50;
-    this.bulletInterection = false;
+    this.enemyX = x;
+    this.enemyY = y;
+    this.enemyDx = random(2, 4); 
+    this.enemyDy = random(2, 4);
+    this.enemySize = 50;
+    this.interact = false;
   }
 
-  displayE() { // Display Image of Enemy 
-    image(images.enemyImg, this.x, this.y, this.imgSize, this.imgSize);
+  displayEnemy() {
+    image(images.enemyImg, this.enemyX, this.enemyY, this.enemySize, this.enemySize);
   }
 
-  update() { // Update x and y with dx and dy
-    this.x += this.dx; 
-    this.y += this.dy;
+  update() { // keep adding x through dx and y thorugh dy
+    this.enemyX += this.enemyDx; 
+    this.enemyY += this.enemyDy;
   }
 
-  bounceImg() { // Image Bounce of Edge, Don't go off Screen
-    if (this.x > width - this.imgSize || this.x < 0) {
-      this.dx *= -1;
-    } if (this.y > height - this.imgSize || this.y < 0) {
-      this.dy *= -1;
+  bounceEnemy() { // Image Bounce of Edge, Don't go off Screen
+    if (this.enemyX > width - this.enemySize || this.enemyX < 0) {
+      this.enemyDx *= -1;
+    } if (this.enemyY > height - this.enemySize || this.enemyY < 0) {
+      this.enemyDy *= -1;
     }
-  
   }
+
+  interactWPlayer() {
+    this.interact = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
+    if (this.interact === true) {
+      player.playerHp -= 1;
+    }
+  }
+
+
+  
 }

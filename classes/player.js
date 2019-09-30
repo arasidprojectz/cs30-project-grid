@@ -1,35 +1,43 @@
-class Player { // Created the Class for Player
+class Player {
   constructor(x, y) {
-    this.x = x; 
-    this.y = y; 
-    this.dx = 5;
-    this.dy = 5;
-    this.playerWidth = 150; 
-    this.playerHeight = 200; 
+    this.playerX = x; 
+    this.playerY = y; 
+    this.playerDx = 2;
+    this.playerDy = 2;
+    this.playerWidth = 100; 
+    this.playerHeight = 150; 
     this.W = 87;
     this.A = 65;
     this.S = 83;
     this.D = 68;
-    this.coinInteraction = false; 
+    this.interact = false;
+    this.playerHp = 5;
   }
 
-  displayPImg() { // Display Image of Player
-    imageMode(CORNER);
-    image(images.playerImg, this.x, this.y, this.playerWidth, this.playerHeight);
+  displayPlayer() { // Display Image of Player
+    image(images.playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight);
   }
 
-  movePlayer() { // Move function - WASD && Imgae can not go off screen
-    if (keyIsPressed && keyCode === this.D && this.x < width - this.playerWidth) {
-      this.x += this.dx;
+  movePlayer() { // Move using WASD && Image can not go off screen
+    if (keyIsDown(this.D) && this.playerX < width - this.playerWidth) {
+      this.playerX += this.playerDx;
     } 
-    if (keyIsPressed && keyCode === this.A && this.x > 0) {
-      this.x -= this.dx;
+    if (keyIsDown(this.A) && this.playerX > 0) {
+      this.playerX -= this.playerDx;
     } 
-    if (keyIsPressed && keyCode === this.W && this.y > 0) {
-      this.y -= this.dy;
+    if (keyIsDown(this.W) && this.playerY > 0) {
+      this.playerY -= this.playerDy;
     } 
-    if (keyIsPressed && keyCode === this.S && this.y < height - this.playerHeight) {
-      this.y += this.dy;
+    if (keyIsDown(this.S) && this.playerY < height - this.playerHeight) {
+      this.playerY += this.playerDy;
     }
+  }
+  
+  drawText() {
+    fill(255);
+    noStroke(255);
+    textSize(40);
+    textLeading(10); 
+    text("Hp: " + this.playerHp, width/2, height/2);
   }
 }
