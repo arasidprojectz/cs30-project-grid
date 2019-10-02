@@ -8,13 +8,13 @@ let gameSetup;
 let images;
 let sounds;
 let enemy = [];
+let bullets = [];
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Player(width/2, height/2);
   enemy.push(new Enemy(random(width), random(height)));  
-  // enemy = new Enemy(random(width), random(height));
   gameSetup = {
     respawnTime: 0,
     enemyTime: 8000,
@@ -41,7 +41,7 @@ function draw() {
   // keepGameScore();
   // createCursor();
   // generateCoins();
-  // fireBullets();
+  fireBullets();
 }
 
 function generateEnemy() {
@@ -60,16 +60,18 @@ function respawnEnemy() {
   }  
 }
 
-// function fireBullets() {
-//   for (let i=0; i<bullets.length; i++) {
-//     bullets[i].displayBImg();
-//     bullets[i].toMousePos();
-//   }
-// }
 
-// function mousePressed() {
-//   bullets.push(new Bullet(player.x, player.y, mouseX, mouseY));  
-// }
+function fireBullets() {
+  for (let i=0; i<bullets.length; i++) {
+    bullets[i].displayBullets();
+    bullets[i].update();
+    bullets[i].shootBullets();
+  }
+}
+
+function mousePressed() {
+  bullets.push(new Bullet(player.x, player.y));  
+}
 
 // function generateCoins() {
 //   if (millis() > gameSetup.respawnTime + gameSetup.addTime) {

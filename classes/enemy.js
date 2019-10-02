@@ -29,9 +29,7 @@ class Enemy {
     this.interact = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.interact === true) {
       player.playerHp -= 1;
+      
     }
-  }
-
-
-  
+  }  
 }

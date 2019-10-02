@@ -1,17 +1,29 @@
 class Bullet {
-  constructor(pX, pY, mX, mY) {
+  constructor(pX, pY) {
     this.x = pX; 
     this.y = pY; 
-    this.mX = mX; 
-    this.mY = mY;
-    this.dx = 5;
-    this.dy = 5;
     this.radius = 15;   
+    this.angle;
+    this.dx;
+    this.dy;
   }
     
-  displayBImg() {
+  displayBullets() {
     image(images.bulletImg, this.x, this.y, this.radius, this.radius);
   }
+
+  update() {
+    this.x += this.dx;
+    this.y += this.dy;
+  }
+
+  shootBullets() {
+    this.angle = random(TWO_PI);
+    this.dx = cos(this.angle/180*PI)*5;
+    this.dy = sin(this.angle/180*PI)*5;
+  }
+
+
     
   // toMousePos() {
   //   if (this.mY < this.y){
