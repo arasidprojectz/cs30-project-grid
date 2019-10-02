@@ -6,6 +6,7 @@ class Enemy {
     this.enemyDy = random(2, 4);
     this.enemySize = 50;
     this.interact = false;
+    this.isCollide = false;
   }
 
   displayEnemy() {
@@ -26,10 +27,14 @@ class Enemy {
   }
 
   interactWPlayer() {
+    console.log()
     this.interact = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
-    if (this.interact === true) {
+    if (this.interact === true && !this.isCollide) {
       player.playerHp -= 1;
-      
+      this.isCollide = true;
+    } 
+    if (!this.interact && this.isCollide === true) {
+      this.isCollide = false;
     }
   }  
 }

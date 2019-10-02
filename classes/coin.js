@@ -8,7 +8,7 @@ class Coin {
 
   }
   
-  displayCImg() {
+  displayCoin() {
     image(images.coinImg, this.x, this.y, this.imgSize, this.imgSize);
   }
 
@@ -20,11 +20,10 @@ class Coin {
   }
 
   keepCoinScore() {
-    let gameScore = "0";
     fill(255);
     noStroke(255);
     textSize(40);
     textLeading(10); 
-    text("Score:" + gameScore , width, height);
+    text("Coins:" + coinPoints , width/2, height/2);
   }
 }    
