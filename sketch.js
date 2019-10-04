@@ -1,4 +1,3 @@
-// 
 // Al Rasid Mamun
 // Sept 9, 2019
 
@@ -6,19 +5,22 @@
 let player;
 let gameSetup;
 let images;
-let sounds;
 let enemy = [];
 let bullets = [];
+let coins = [];
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Player(width/2, height/2);
-  enemy.push(new Enemy(random(width), random(height)));  
+  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
+  coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
   gameSetup = {
-    respawnTime: 0,
-    enemyTime: 8000,
-    gameScore: 0,
+    respawnEnemy: 0,
+    respawnCoin: 0,
+    enemyTime: 6000,
+    coinTime: 4000,
+    coinScore: 0,
   };
 
   images = {
@@ -37,14 +39,22 @@ function draw() {
   player.movePlayer();
   player.drawText();
   generateEnemy(); 
-  respawnEnemy();
-  // keepGameScore();
-  // createCursor();
-  // generateCoins();
-  fireBullets();
+  enemyRespawnRandom();
+  generateCoins();
+  coinsRespawnRandom();
+  // drawCoinScore();
+  removeCoin();
+  // fireBullets();
 }
 
 function generateEnemy() {
+  if (millis() > gameSetup.respawnEnemy + gameSetup.enemyTime) {
+    enemy.push(new Enemy(random(width), random(height)));  
+    gameSetup.respawnEnemy = millis();
+  }  
+}
+
+function enemyRespawnRandom() {
   for (let i=0; i<enemy.length; i++) {
     enemy[i].displayEnemy();
     enemy[i].update();
@@ -53,56 +63,38 @@ function generateEnemy() {
   } 
 }
 
-function respawnEnemy() {
-  if (millis() > gameSetup.respawnTime + gameSetup.enemyTime) {
-    enemy.push(new Enemy(random(width), random(height)));  
-    gameSetup.respawnTime = millis();
-  }  
-}
 
+function generateCoins() {
+  if (millis() > gameSetup.respawnCoin + gameSetup.coinTime) {
+    coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
+    gameSetup.respawnCoin = millis();
+  }
+} 
 
-function fireBullets() {
-  for (let i=0; i<bullets.length; i++) {
-    bullets[i].displayBullets();
-    bullets[i].update();
-    bullets[i].shootBullets();
+function coinsRespawnRandom() {
+  for (let i=0; i<coins.length; i++) {
+    coins[i].displayCoin();
+    coins[i].collisionWithPlayer();
+    coins[i].drawText();
   }
 }
 
-function mousePressed() {
-  bullets.push(new Bullet(player.x, player.y));  
+function removeCoin() {
+  if (coins.length > 1) {
+    coins.splice(0, 1);
+  }
 }
 
-// function generateCoins() {
-//   if (millis() > gameSetup.respawnTime + gameSetup.addTime) {
-//     coins.push(new Coin(random(width), random(height)));
-//     gameSetup.respawnTime = millis();
 
-//   }
-//   for (let i=0; i<coins.length; i++) {
-//     coins[i].displayCImg();
-//     coins[i].coinCollision();
-//     coins[i].keepCoinScore();
-//   }
-// } 
 
-// function createCursor() {
-//   stroke("grey");
-//   strokeWeight(2);
-//   beginShape();
-//   vertex(0 + mouseX, 40 + mouseY);
-//   vertex(0 + mouseX, -5 + mouseY);
-//   vertex(34 + mouseX, 25 + mouseY);
-//   vertex(15 + mouseX, 25 + mouseY);
-//   vertex(0 + mouseX, 40 + mouseY);
-//   endShape();
+// function fireBullets() {
+//   for (let i=0; i<bullets.length; i++) {
+//     bullets[i].displayBullets();
+//     bullets[i].update();
+//     bullets[i].shootBullets();
+//   }
 // }
 
-// function keepGameScore() {
-//   let gameScore = "0";
-//   fill(0);
-//   noStroke(255);
-//   textSize(40);
-//   textLeading(10); 
-//   text("Score:" + gameScore , width, height);
+// function mousePressed() {
+//   bullets.push(new Bullet(player.x, player.y));  
 // }

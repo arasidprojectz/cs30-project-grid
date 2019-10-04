@@ -2,8 +2,8 @@ class Player {
   constructor(x, y) {
     this.playerX = x; 
     this.playerY = y; 
-    this.playerDx = 2;
-    this.playerDy = 2;
+    this.playerDx = 1.5;
+    this.playerDy = 1.5;
     this.playerWidth = 100; 
     this.playerHeight = 150; 
     this.W = 87;
@@ -38,6 +38,6 @@ class Player {
     noStroke(255);
     textSize(40);
     textLeading(10); 
-    text("Hp: " + this.playerHp, width/2, height/2);
+    text("Hp: " + this.playerHp, width/2 - 615, height/2 - 250);
   }
 }

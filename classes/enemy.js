@@ -2,9 +2,9 @@ class Enemy {
   constructor(x, y) {
     this.enemyX = x;
     this.enemyY = y;
+    this.enemySize = 50;
     this.enemyDx = random(2, 4); 
     this.enemyDy = random(2, 4);
-    this.enemySize = 50;
     this.interact = false;
     this.isCollide = false;
   }
@@ -27,7 +27,6 @@ class Enemy {
   }
 
   interactWPlayer() {
-    console.log()
     this.interact = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.interact === true && !this.isCollide) {
       player.playerHp -= 1;
