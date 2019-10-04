@@ -3,8 +3,8 @@ class Enemy {
     this.enemyX = x;
     this.enemyY = y;
     this.enemySize = 50;
-    this.enemyDx = random(2, 4); 
-    this.enemyDy = random(2, 4);
+    this.enemyDx = random(3, 5); 
+    this.enemyDy = random(3, 5);
     this.interact = false;
     this.isCollide = false;
   }

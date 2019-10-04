@@ -19,7 +19,7 @@ function setup() {
     respawnEnemy: 0,
     respawnCoin: 0,
     enemyTime: 6000,
-    coinTime: 4000,
+    coinTime: 5000,
     coinScore: 0,
   };
 
@@ -42,8 +42,7 @@ function draw() {
   enemyRespawnRandom();
   generateCoins();
   coinsRespawnRandom();
-  // drawCoinScore();
-  removeCoin();
+  // removeCoin();
   // fireBullets();
 }
 
@@ -76,14 +75,15 @@ function coinsRespawnRandom() {
     coins[i].displayCoin();
     coins[i].collisionWithPlayer();
     coins[i].drawText();
+    coins[i].removeCoin();
   }
 }
 
-function removeCoin() {
-  if (coins.length > 1) {
-    coins.splice(0, 1);
-  }
-}
+// function removeCoin() {
+//   if (coins.interact === true) {
+//       coins.splice(0, 1);
+//   }
+// }
 
 
 
@@ -91,10 +91,10 @@ function removeCoin() {
 //   for (let i=0; i<bullets.length; i++) {
 //     bullets[i].displayBullets();
 //     bullets[i].update();
-//     bullets[i].shootBullets();
+//     bullets[i].toMousePos();
 //   }
 // }
 
 // function mousePressed() {
-//   bullets.push(new Bullet(player.x, player.y));  
+//   bullets.push(new Bullet(player.playerX, player.playerY, mouseX, mouseY));  
 // }
