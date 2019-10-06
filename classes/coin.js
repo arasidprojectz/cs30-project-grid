@@ -15,19 +15,12 @@ class Coin {
   collisionWithPlayer() {
     this.interact = collideRectRect(this.coinX, this.coinY, this.coinSize, this.coinSize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.interact === true && !this.isCollide) {
+      sounds.coinSound.play();
       gameSetup.coinScore += 1;
       this.isCollide = true;
     } 
-    if (!this.interact && this.isCollide === true) {
+    if (this.isCollide === true && !this.interact) {
       this.isCollide = false;
     }
   } 
-
-  drawText() {
-    fill(255);
-    noStroke(255);
-    textSize(40);
-    textLeading(10); 
-    text("Coins: " + gameSetup.coinScore, width/2 - 615, height/2 - 200);
-  }
 }    

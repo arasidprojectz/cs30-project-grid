@@ -1,44 +1,27 @@
 class Bullet {
   constructor(pX, pY) {
-    this.x = pX; 
-    this.y = pY; 
-    this.radius = 15;   
-    this.angle;
-    this.dx;
-    this.dy;
+    this.bulletX = pX; 
+    this.bulletY = pY; 
+    this.bulletDX = 0;
+    this.bulletDY = 0;
+    this.radius = 10;   
+    this.angle = 0;
   }
     
   displayBullets() {
-    image(images.bulletImg, this.x, this.y, this.radius, this.radius);
+    image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
   }
 
   update() {
-    this.x += this.dx;
-    this.y += this.dy;
+    this.bulletX += this.bulletDX;
+    this.bulletY += this.bulletDY;
   }
 
   shootBullets() {
-    this.angle = random(TWO_PI);
-    this.dx = cos(this.angle/180*PI)*5;
-    this.dy = sin(this.angle/180*PI)*5;
+    this.angle = player.aimAngle;
+    this.bulletDX = player.bulletDistance * cos(this.angle);
+    this.bulletDY = player.bulletDistance * sin(this.angle);
   }
-
-
-    
-  // toMousePos() {
-  //   if (this.mY < this.y){
-  //     this.y -= this.dy*5;
-  //   } 
-  //   else if (this.mY > this.y) {
-  //     this.y += this.dy*5;
-  //   }
-  //   if (this.mX < this.x){
-  //     this.x -= this.dx*5;
-  //   } 
-  //   else if (this.mX > this.x){
-  //     this.x += this.dx*5;
-  //   }
-  // }
 } 
 
 

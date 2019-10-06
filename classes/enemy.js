@@ -5,8 +5,10 @@ class Enemy {
     this.enemySize = 50;
     this.enemyDx = random(3, 5); 
     this.enemyDy = random(3, 5);
-    this.interact = false;
-    this.isCollide = false;
+    this.playerInteract = false;
+    this.playerIsCollide = false;
+    this.bulletInteract = false;
+    this.bulletIsCollide = false;
   }
 
   displayEnemy() {
@@ -26,14 +28,25 @@ class Enemy {
     }
   }
 
-  interactWPlayer() {
-    this.interact = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
-    if (this.interact === true && !this.isCollide) {
-      player.playerHp -= 1;
-      this.isCollide = true;
+  collisionWithBullets() {
+    this.bulletInteract = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, bullets[i].bulletX, bullets[i].bulletY, bullets[i].radius*2, bullets[i].radius*2);
+    if (this.bulletInteract === true && !this.bulletIsCollide) {
+      gameSetup.killScore += 1;
+      this.bulletIsCollide = true;
     } 
-    if (!this.interact && this.isCollide === true) {
-      this.isCollide = false;
+    if (this.bulletIsCollide === true && !this.bulletInteract) {
+      this.bulletIsCollide = false;
+    }
+  }  
+
+  interactWPlayer() {
+    this.playerInteract = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
+    if (this.playerInteract === true && !this.playerIsCollide) {
+      player.playerHp -= 1;
+      this.playerIsCollide = true;
+    } 
+    if (!this.playerInteract && this.playerIsCollide === true) {
+      this.playerIsCollide = false;
     }
   }  
 }
