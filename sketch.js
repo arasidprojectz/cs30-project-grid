@@ -1,6 +1,14 @@
+// CS30 Project - Interactive Scene
 // Al Rasid Mamun
-// Sept 9, 2019
-
+// Oct 10, 2019
+// Extra for Experts:
+//  - Polar Coordinates 
+//      - Return angle and distance which bullet travels
+//  - Add Music
+//      - Collet Coin
+//      - Shoot Bullets
+//      - Game Over
+//      - Laugh
 
 let player;
 let images;
@@ -13,15 +21,14 @@ let bullets = [];
 let coins = [];
 
 function preload() {
-  images = {
+  images = { // An object that contains images which are preLoaded
     bgImg: loadImage("assets/images/background.jpg"),
     playerImg: loadImage("assets/images/gunfighter.png"),
     bulletImg: loadImage("assets/images/fire-ball.png"),
     enemyImg: loadImage("assets/images/enemy.png"),
     coinImg: loadImage("assets/images/coin.png"),
   }; 
-  sounds = {
-    bgSound: loadSound("assets/sounds/background.mp3"),
+  sounds = { // An object that contains sounds which are preLoaded
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
     laughSound: loadSound("assets/sounds/laugh.mp3"),
@@ -35,20 +42,20 @@ function setup() {
   player = new Player(width/2, height/2);
   enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-  setScore = {
-    playerHP: 2,
+  setScore = { // An object that contains Scores Values
+    playerHP: 5,
     coinScore: 0,
     killScore: 0,
   };
 
-  setTime = {
+  setTime = { // An object that contains Time Values
     respawnEnemy: 0,
     respawnCoin: 0,
     enemyTime: 3000,
     coinTime: 6000,
   };
 
-  setBoolean = {
+  setBoolean = { // An object that contains Booleans Values
     playGame: false,
     bulletInteract: false,
     bulletIsCollide: false,
@@ -58,22 +65,22 @@ function setup() {
 
 function draw() {
   background(images.bgImg);
-  if (setBoolean.playGame === true) {
+  if (setBoolean.playGame === true) { // Runs the game, if playing game is equal to true
     modeGame();
     fill(255, 0, 0);
     noStroke(255);
     textSize(40);
     textLeading(10); 
     textAlign(CENTER, CENTER);
-    text("DO NOT PRESS SPACE", width - 230, height/2 - 280);
+    text("DO NOT PRESS SPACE", width - 230, height/2 - 350);
   }  
-  else {
+  else { // Instruction will show up or keep track of highest Score
     modeMenu();
   }
 }
 
 // Game States 
-function modeMenu() { 
+function modeMenu() { // Text shows up
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(30);
@@ -114,7 +121,7 @@ function keyPressed() {
   }
 }
 
-// Player
+// Use player class to get values of player 
 function makePlayer() {
   player.displayPlayer();
   player.movePlayer();
@@ -128,7 +135,7 @@ function playerHealth() {
   }
 }
 
-// Bullets
+// Use bullet class to get values of bullets
 function checkBullets() {
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
@@ -161,7 +168,7 @@ function removeBullet() {
   }
 }
 
-// Enemy 
+// Use enemy class to get values of enemys
 function generateEnemy() {
   if (millis() > setTime.respawnEnemy + setTime.enemyTime) {
     enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
@@ -178,7 +185,7 @@ function enemyRespawnRandom() {
   } 
 }
 
-// Coins
+// Use coin class to get values of coins
 function generateCoins() {
   if (millis() > setTime.respawnCoin + setTime.coinTime) {
     coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
@@ -196,7 +203,7 @@ function coinsRespawnRandom() {
   }
 }
 
-// Titles
+// Player health dhow up and keep tracks
 function drawPlayerHP() {
   fill(255);
   noStroke(255);
@@ -205,6 +212,7 @@ function drawPlayerHP() {
   text("Hp: " + setScore.playerHP, width/2 - 200, height - 20);
 }
 
+// Coin scores show up and keep Ttracks
 function drawCoinsScore() {
   fill(255);
   noStroke(255);
@@ -213,6 +221,7 @@ function drawCoinsScore() {
   text("Coins: " + setScore.coinScore, width/2, height - 20);
 }
 
+// Kill enemy score show up and keep tracks
 function drawKillScore() {
   fill(255);
   noStroke(255);
