@@ -21,14 +21,17 @@ let bullets = [];
 let coins = [];
 
 function preload() {
-  images = { // An object that contains images which are preLoaded
+  // An object that contains images which are pre-loaded
+  images = { 
     bgImg: loadImage("assets/images/background.jpg"),
     playerImg: loadImage("assets/images/gunfighter.png"),
     bulletImg: loadImage("assets/images/fire-ball.png"),
     enemyImg: loadImage("assets/images/enemy.png"),
     coinImg: loadImage("assets/images/coin.png"),
   }; 
-  sounds = { // An object that contains sounds which are preLoaded
+
+  // An object that contains sounds which are pre-loaded
+  sounds = { 
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
     laughSound: loadSound("assets/sounds/laugh.mp3"),
@@ -40,22 +43,27 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Player(width/2, height/2);
-  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
+  // Make a new enemy and push it to array 
+  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
+  // Make a new coin and it push to array
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-  setScore = { // An object that contains Scores Values
-    playerHP: 5,
+  // An object that contains Scores Values
+  setScore = { 
+    playerHP: 15,
     coinScore: 0,
     killScore: 0,
   };
 
-  setTime = { // An object that contains Time Values
+  // An object that contains Time Values
+  setTime = { 
     respawnEnemy: 0,
     respawnCoin: 0,
     enemyTime: 3000,
     coinTime: 6000,
   };
 
-  setBoolean = { // An object that contains Booleans Values
+  // An object that contains Booleans Values
+  setBoolean = {
     playGame: false,
     bulletInteract: false,
     bulletIsCollide: false,
@@ -65,7 +73,8 @@ function setup() {
 
 function draw() {
   background(images.bgImg);
-  if (setBoolean.playGame === true) { // Runs the game, if playing game is equal to true
+  // Runs the game, if playing game is equal to true
+  if (setBoolean.playGame === true) {
     modeGame();
     fill(255, 0, 0);
     noStroke(255);
@@ -74,13 +83,15 @@ function draw() {
     textAlign(CENTER, CENTER);
     text("DO NOT PRESS SPACE", width - 230, height/2 - 350);
   }  
-  else { // Instruction will show up or keep track of highest Score
+  else { 
     modeMenu();
   }
 }
 
 // Game States 
-function modeMenu() { // Text shows up
+
+function modeMenu() { 
+  // Instruction will show up, if or keep track of highest Score
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(30);
@@ -109,10 +120,12 @@ function modeGame() {
 }
 
 function keyPressed() {
-  if (keyCode === 13) { // Key - Enter 
+  // Key - Enter
+  if (keyCode === 13) { 
     setBoolean.playGame = true;
   }
-  if (keyCode === 32) { // key - Esc
+  // key - Esc
+  if (keyCode === 32) {
     sounds.laughSound.play();
     setBoolean.playGame = false;
     setScore.coinScore = 0; 
@@ -121,27 +134,31 @@ function keyPressed() {
   }
 }
 
-// Use player class to get values of player 
 function makePlayer() {
+  // Use player class to get values of player 
   player.displayPlayer();
   player.movePlayer();
   player.angleOfBullets(mouseX, mouseY);
 }
 
 function playerHealth() {
+  // If player health less than or equal to zero, game over
   if (setScore.playerHP <= 0) {
     sounds.gameOverSound.play();
     setBoolean.playGame  = false;
   }
 }
 
-// Use bullet class to get values of bullets
+// Bullet
+
 function checkBullets() {
+  // Get Values from bullet class and use them in bullets array
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
     bullets[i].shootBullets();
     bullets[i].update();
-    for (let e=0; e<enemy.length; e++) {
+    for (let e=0; e<enemy.length; e++) { 
+      // Check if bullet and enemy collide, if true, delete bullet and enemy that collided
       setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
         bullets[i].bulletX, bullets[i].bulletY, bullets[i].radius, bullets[i].radius);
       if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
@@ -159,24 +176,29 @@ function checkBullets() {
 
 function mousePressed() {
   sounds.shootSound.play();
+  // Make a new bullet, if mouse pressed and push it to array 
   bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
 }
 
 function removeBullet() {
+  // If bullet length more than one, delete last bullet
   if (bullets.length > 1) {
     bullets.splice(0, 1);
   }
 }
 
-// Use enemy class to get values of enemys
+// Enemy
+
 function generateEnemy() {
   if (millis() > setTime.respawnEnemy + setTime.enemyTime) {
+      // Make a new enemy every three seconds and push it to array 
     enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
     setTime.respawnEnemy = millis();
   }  
 }
 
 function enemyRespawnRandom() {
+  // Get Values from enemy class and use them in enemy array
   for (let i=0; i<enemy.length; i++) {
     enemy[i].displayEnemy();
     enemy[i].update();
@@ -185,15 +207,19 @@ function enemyRespawnRandom() {
   } 
 }
 
-// Use coin class to get values of coins
+// Coin
+
 function generateCoins() {
   if (millis() > setTime.respawnCoin + setTime.coinTime) {
+    // Make a new coins every six seconds and push it to array 
     coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
     setTime.respawnCoin = millis();
   }
 } 
 
+
 function coinsRespawnRandom() {
+  // Get Values from coin class and use them in coin array
   for (let i=0; i<coins.length; i++) {
     coins[i].displayCoin();
     coins[i].collisionWithPlayer();
@@ -203,7 +229,7 @@ function coinsRespawnRandom() {
   }
 }
 
-// Player health dhow up and keep tracks
+// Text that shows player health and keep tracks
 function drawPlayerHP() {
   fill(255);
   noStroke(255);
@@ -212,7 +238,7 @@ function drawPlayerHP() {
   text("Hp: " + setScore.playerHP, width/2 - 200, height - 20);
 }
 
-// Coin scores show up and keep Ttracks
+// Text that shows coin score and keep tracks
 function drawCoinsScore() {
   fill(255);
   noStroke(255);
@@ -221,7 +247,7 @@ function drawCoinsScore() {
   text("Coins: " + setScore.coinScore, width/2, height - 20);
 }
 
-// Kill enemy score show up and keep tracks
+// Text that shows kill score and keep tracks
 function drawKillScore() {
   fill(255);
   noStroke(255);
