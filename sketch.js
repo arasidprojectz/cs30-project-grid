@@ -24,7 +24,9 @@ function preload() {
     bgSound: loadSound("assets/sounds/background.mp3"),
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
-    gameOverSound: loadSound("assets/sounds/game-over.mp3")
+    laughSound: loadSound("assets/sounds/laugh.mp3"),
+    gameOverSound: loadSound("assets/sounds/game-over.mp3"),
+
   };
 }
 
@@ -62,7 +64,8 @@ function draw() {
     noStroke(255);
     textSize(40);
     textLeading(10); 
-    text("DO NOT PRESS SPACE", width/2 + 200, height - 20);
+    textAlign(CENTER, CENTER);
+    text("DO NOT PRESS SPACE", width - 230, height/2 - 280);
   }  
   else {
     modeMenu();
@@ -103,6 +106,7 @@ function keyPressed() {
     setBoolean.playGame = true;
   }
   if (keyCode === 32) { // key - Esc
+    sounds.laughSound.play();
     setBoolean.playGame = false;
     setScore.coinScore = 0; 
     setScore.killScore = 0;
