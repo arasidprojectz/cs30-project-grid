@@ -10,7 +10,6 @@ class Player {
     this.A = 65;
     this.S = 83;
     this.D = 68;
-    this.playerHp = 5;
     this.aimAngle = 0;
     this.bulletDistance = 0;
     this.interact = false;
@@ -39,12 +38,5 @@ class Player {
       this.playerY += this.playerDy;
     }
   }
-  
-  drawText() {
-    fill(255);
-    noStroke(255);
-    textSize(40);
-    textLeading(10); 
-    text("Hp: " + this.playerHp, width/2 - 100, height - 20);
-  }
+
 }

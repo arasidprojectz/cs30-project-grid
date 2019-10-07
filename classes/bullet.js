@@ -4,12 +4,12 @@ class Bullet {
     this.bulletY = pY; 
     this.bulletDX = 0;
     this.bulletDY = 0;
-    this.radius = 10;   
+    this.radius = 15;   
     this.angle = 0;
   }
     
   displayBullets() {
-    image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
+    image(images.bulletImg, this.bulletX, this.bulletY, this.radius, this.radius);
   }
 
   update() {
@@ -19,8 +19,8 @@ class Bullet {
 
   shootBullets() {
     this.angle = player.aimAngle;
-    this.bulletDX = player.bulletDistance * cos(this.angle);
-    this.bulletDY = player.bulletDistance * sin(this.angle);
+    this.bulletDX = player.bulletDistance * cos(this.angle)*5;
+    this.bulletDY = player.bulletDistance * sin(this.angle)*5;
   }
 } 
 

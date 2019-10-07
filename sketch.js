@@ -3,9 +3,11 @@
 
 
 let player;
-let gameSetup;
 let images;
 let sounds;
+let setScore;
+let setTime;
+let setBoolean;
 let enemy = [];
 let bullets = [];
 let coins = [];
@@ -19,8 +21,10 @@ function preload() {
     coinImg: loadImage("assets/images/coin.png"),
   }; 
   sounds = {
-    bgSound: loadSound("assets/sounds/background-music.mp3"),
+    bgSound: loadSound("assets/sounds/background.mp3"),
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
+    shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
+    gameOverSound: loadSound("assets/sounds/game-over.mp3")
   };
 }
 
@@ -29,51 +33,135 @@ function setup() {
   player = new Player(width/2, height/2);
   enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-  gameSetup = {
-    playGame: false,
-    counter: 0, 
-    respawnEnemy: 0,
-    respawnCoin: 0,
-    enemyTime: 6000,
-    coinTime: 5000,
+  setScore = {
+    playerHP: 2,
     coinScore: 0,
     killScore: 0,
+  };
+
+  setTime = {
+    respawnEnemy: 0,
+    respawnCoin: 0,
+    enemyTime: 3000,
+    coinTime: 6000,
+  };
+
+  setBoolean = {
+    playGame: false,
+    bulletInteract: false,
+    bulletIsCollide: false,
+    zeroHealth: false,
   };
 }
 
 function draw() {
   background(images.bgImg);
-  if (gameSetup.playGame === true) {
+  if (setBoolean.playGame === true) {
     modeGame();
+    fill(255, 0, 0);
+    noStroke(255);
+    textSize(40);
+    textLeading(10); 
+    text("DO NOT PRESS SPACE", width/2 + 200, height - 20);
   }  
-  else if (player.playerHp <= 0) {
-    gameOver();
-  }
   else {
     modeMenu();
   }
 }
 
-// Bullets
+// Game States 
+function modeMenu() { 
+  textAlign(CENTER, CENTER);
+  fill(255);
+  textSize(30);
+  strokeWeight(5);
+  textLeading(10);
+  text("VIROATTACK", width/2, height/2 - 100);
+  text("Move Player Using WASD, Mouse to Aim, Left Mouse Button to Shoot!", width/2, height/2 - 50);
+  text("Avoid VIRUS, if player collide with them, player health will decrease by one", width/2, height/2);
+  text("PRESS ENTER TO START GAME!", width/2, height/2 + 50);
+  text("Coin Score: " + setScore.coinScore, width/2, height/2 + 100);
+  text("Kills Score: " + setScore.killScore, width/2, height/2 + 150);
+}
 
-function fireBullets() {
+function modeGame() {
+  makePlayer();
+  generateEnemy(); 
+  generateCoins();
+  enemyRespawnRandom();
+  coinsRespawnRandom();
+  checkBullets();
+  removeBullet();
+  playerHealth();
+  drawPlayerHP();
+  drawCoinsScore();
+  drawKillScore();
+}
+
+function keyPressed() {
+  if (keyCode === 13) { // Key - Enter 
+    setBoolean.playGame = true;
+  }
+  if (keyCode === 32) { // key - Esc
+    setBoolean.playGame = false;
+    setScore.coinScore = 0; 
+    setScore.killScore = 0;
+    modeMenu();
+  }
+}
+
+// Player
+function makePlayer() {
+  player.displayPlayer();
+  player.movePlayer();
+  player.angleOfBullets(mouseX, mouseY);
+}
+
+function playerHealth() {
+  if (setScore.playerHP <= 0) {
+    sounds.gameOverSound.play();
+    setBoolean.playGame  = false;
+  }
+}
+
+// Bullets
+function checkBullets() {
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
     bullets[i].shootBullets();
     bullets[i].update();
+    for (let e=0; e<enemy.length; e++) {
+      setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
+        bullets[i].bulletX, bullets[i].bulletY, bullets[i].radius, bullets[i].radius);
+      if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
+        setBoolean.bulletIsCollide = true;
+        bullets.splice(i, 1);
+        enemy.splice(e, 1);
+        setScore.killScore += 1;
+      } 
+      if (setBoolean.bulletIsCollide === true && !setBoolean.bulletInteract) {
+        setBoolean.bulletIsCollide = false;
+      }
+    }  
   }
 }
 
 function mousePressed() {
-  bullets.push(new Bullet(player.playerX, player.playerY, mouseX, mouseY));  
+  sounds.shootSound.play();
+  bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
+}
+
+function removeBullet() {
+  if (bullets.length > 1) {
+    bullets.splice(0, 1);
+  }
 }
 
 // Enemy 
-
 function generateEnemy() {
-  if (millis() > gameSetup.respawnEnemy + gameSetup.enemyTime) {
-    enemy.push(new Enemy(random(width), random(height)));  
-    gameSetup.respawnEnemy = millis();
+  if (millis() > setTime.respawnEnemy + setTime.enemyTime) {
+    enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
+    setTime.respawnEnemy = millis();
   }  
 }
 
@@ -82,20 +170,15 @@ function enemyRespawnRandom() {
     enemy[i].displayEnemy();
     enemy[i].update();
     enemy[i].bounceEnemy();
-    enemy[i].interactWPlayer();
-    enemy[i].collisionWithBullets();
-    if (enemy[i].bulletIsCollide === true) {
-      enemy.splice(i, 1);
-    }
+    enemy[i].interactWithPlayer();
   } 
 }
 
 // Coins
-
 function generateCoins() {
-  if (millis() > gameSetup.respawnCoin + gameSetup.coinTime) {
+  if (millis() > setTime.respawnCoin + setTime.coinTime) {
     coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-    gameSetup.respawnCoin = millis();
+    setTime.respawnCoin = millis();
   }
 } 
 
@@ -109,62 +192,30 @@ function coinsRespawnRandom() {
   }
 }
 
+// Titles
+function drawPlayerHP() {
+  fill(255);
+  noStroke(255);
+  textSize(40);
+  textLeading(10); 
+  text("Hp: " + setScore.playerHP, width/2 - 200, height - 20);
+}
+
 function drawCoinsScore() {
   fill(255);
   noStroke(255);
   textSize(40);
   textLeading(10); 
-  text("Coins: " + gameSetup.coinScore, width/2, height - 20);
+  text("Coins: " + setScore.coinScore, width/2, height - 20);
 }
 
-// Game States 
-
-function modeMenu() { 
-  textAlign(CENTER, CENTER);
-  fill(255);
-  textSize(30);
-  strokeWeight(5);
-  textLeading(10);
-  text("VIROATTACK", width/2, height/2 - 100);
-  text("Move Player using WASD, W: Up, S: Down, A: Left, D: Right", width/2, height/2 - 50);
-  text("WARNING: Avoid Virus, if player collide with them, therefore player health decrease by One", width/2, height/2);
-  text("PRESS ENTER TO START GAME!", width/2, height/2 + 50);
-}
-
-function modeGame() {
-  player.displayPlayer();
-  player.movePlayer();
-  player.angleOfBullets(mouseX, mouseY);
-  player.drawText();
-  generateEnemy(); 
-  enemyRespawnRandom();
-  generateCoins();
-  coinsRespawnRandom();
-  timeSurvived();
-  drawCoinsScore();
-  fireBullets();
-}
-
-function timeSurvived() {
-  gameSetup.counter++;
-  fill(255);
-  noStroke(255);
-  textSize(40);-
-  textLeading(10); 
-  text("Survived: " + gameSetup.counter, width/2, height - 20);
-}
-
-function gameOver() {
-  gameSetup.coinScore = 
+function drawKillScore() {
   fill(255);
   noStroke(255);
   textSize(40);
   textLeading(10); 
-  text("Coins: " + gameSetup.coinScore, width/2, height/2);
+  text("Kills: " + setScore.killScore, width/2 + 200, height - 20);
 }
 
-function keyPressed() {
-  if (keyCode === 13) { // Key Enter 
-    gameSetup.playGame = true;
-  }
-}
+
+
