@@ -15,16 +15,19 @@ class Player {
     this.interact = false;
   }
 
-  displayPlayer() { // Display Image of Player
+  // Display image
+  displayPlayer() {
     image(images.playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight);
   }
 
+  // Calculate Distance from player postion to mouse postion
   angleOfBullets(mX, mY) {
     this.aimAngle = atan2(this.playerY - mY,this.playerX - mX);
     this.bulletDistance = -10;
   }
 
-  movePlayer() { // Move using WASD && Image can not go off screen
+  // Move using WASD && can not go off screen
+  movePlayer() { 
     if (keyIsDown(this.D) && this.playerX < width - this.playerWidth) {
       this.playerX += this.playerDx;
     } 

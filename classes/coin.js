@@ -8,10 +8,12 @@ class Coin {
     this.isCollide = false;
   }
   
+  // Display a image
   displayCoin() {
     image(images.coinImg, this.coinX, this.coinY, this.coinSize, this.coinSize);
   }
 
+  // Check if player collide with coins, true, add one to coin score
   collisionWithPlayer() {
     this.interact = collideRectRect(this.coinX, this.coinY, this.coinSize, this.coinSize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.interact === true && !this.isCollide) {

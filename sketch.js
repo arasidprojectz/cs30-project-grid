@@ -42,10 +42,11 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  // Make a new player at center of screen
   player = new Player(width/2, height/2);
-  // Make a new enemy and push it to array 
+  // Make a new enemy randomly and push it to array 
   enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
-  // Make a new coin and it push to array
+  // Make a new coin randomly and it push to array
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
   // An object that contains Scores Values
   setScore = { 
@@ -71,9 +72,9 @@ function setup() {
   };
 }
 
+// Runs the game, if playing game is equal to true
 function draw() {
   background(images.bgImg);
-  // Runs the game, if playing game is equal to true
   if (setBoolean.playGame === true) {
     modeGame();
     fill(255, 0, 0);
@@ -88,10 +89,9 @@ function draw() {
   }
 }
 
-// Game States 
-
+// Game States
+// Instruction will show up, if or keep track of highest Score
 function modeMenu() { 
-  // Instruction will show up, if or keep track of highest Score
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(30);
@@ -134,31 +134,29 @@ function keyPressed() {
   }
 }
 
+// Get values from player class and use them in player
 function makePlayer() {
-  // Use player class to get values of player 
   player.displayPlayer();
   player.movePlayer();
   player.angleOfBullets(mouseX, mouseY);
 }
 
+// If player health less than or equal to zero, game over
 function playerHealth() {
-  // If player health less than or equal to zero, game over
   if (setScore.playerHP <= 0) {
     sounds.gameOverSound.play();
     setBoolean.playGame  = false;
   }
 }
 
-// Bullet
-
+// Get values from bullet class and use them in bullets array
 function checkBullets() {
-  // Get Values from bullet class and use them in bullets array
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
     bullets[i].shootBullets();
     bullets[i].update();
+    // Check if bullet and enemy collide, if true, delete bullet and enemy that collided
     for (let e=0; e<enemy.length; e++) { 
-      // Check if bullet and enemy collide, if true, delete bullet and enemy that collided
       setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
         bullets[i].bulletX, bullets[i].bulletY, bullets[i].radius, bullets[i].radius);
       if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
@@ -174,31 +172,29 @@ function checkBullets() {
   }
 }
 
+// Make a new bullet, if mouse pressed and push it to array 
 function mousePressed() {
   sounds.shootSound.play();
-  // Make a new bullet, if mouse pressed and push it to array 
   bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
 }
 
+// If bullet length more than one, delete last bullet
 function removeBullet() {
-  // If bullet length more than one, delete last bullet
   if (bullets.length > 1) {
     bullets.splice(0, 1);
   }
 }
 
-// Enemy
-
+// Make a new enemy every three seconds and push it to array 
 function generateEnemy() {
   if (millis() > setTime.respawnEnemy + setTime.enemyTime) {
-      // Make a new enemy every three seconds and push it to array 
     enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));  
     setTime.respawnEnemy = millis();
   }  
 }
 
+// Get Values from enemy class and use them in enemy array
 function enemyRespawnRandom() {
-  // Get Values from enemy class and use them in enemy array
   for (let i=0; i<enemy.length; i++) {
     enemy[i].displayEnemy();
     enemy[i].update();
@@ -207,19 +203,17 @@ function enemyRespawnRandom() {
   } 
 }
 
-// Coin
-
+// Make a new coins every six seconds and push it to array 
 function generateCoins() {
   if (millis() > setTime.respawnCoin + setTime.coinTime) {
-    // Make a new coins every six seconds and push it to array 
     coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
     setTime.respawnCoin = millis();
   }
 } 
 
 
+// Get Values from coin class and use them in coin array
 function coinsRespawnRandom() {
-  // Get Values from coin class and use them in coin array
   for (let i=0; i<coins.length; i++) {
     coins[i].displayCoin();
     coins[i].collisionWithPlayer();

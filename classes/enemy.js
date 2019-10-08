@@ -11,16 +11,19 @@ class Enemy {
     this.bulletInteract = false;
   }
 
+  // Display a image
   displayEnemy() {
     image(images.enemyImg, this.enemyX, this.enemyY, this.enemySize, this.enemySize);
   }
 
+  // Update x and y values with dx and dy
   update() { // keep adding x through dx and y thorugh dy
     this.enemyX += this.enemyDx; 
     this.enemyY += this.enemyDy;
   }
 
-  bounceEnemy() { // Image Bounce of Edge, Don't go off Screen
+  // Image Bounce at Edges, if needed so, doesn't go off screen
+  bounceEnemy() {
     if (this.enemyX > width - this.enemySize || this.enemyX < 0) {
       this.enemyDx *= -1;
     } if (this.enemyY > height - this.enemySize || this.enemyY < 0) {
@@ -28,6 +31,7 @@ class Enemy {
     }
   }
 
+  // Check if player collide with enemy, true, player health decrease one
   interactWithPlayer() {
     this.playerInteract = collideRectRect(this.enemyX, this.enemyY, this.enemySize, this.enemySize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.playerInteract === true && !this.playerIsCollide) {
