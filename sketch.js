@@ -1,20 +1,25 @@
-// CS30 Project - Interactive Scene
+// CS30 Project - State Assignment
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
-//  - Polar Coordinates 
-//      - Return angle and distance which bullet travels
-//  - Add Music
-//      - Collet Coin
-//      - Shoot Bullets
-//      - Game Over
-//      - Laugh
+
+
+// State Assignment:
+// States - game, player, enemy
+// Health bar - player, enemy
+// Enemy Shoot Bullet to Player
+// Day and Night Mode
+// Night Enemy - strong, fast
+// player - bullet - two ablities
+// medkit for player health
+// Map if Possible
 
 let player;
 let images;
 let sounds;
 let setScore;
 let setTime;
+let state;
 let setBoolean;
 let enemy = [];
 let bullets = [];
@@ -48,6 +53,10 @@ function setup() {
   enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
   // Make a new coin randomly and it push to array
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
+  // An object that contains States Values
+  state = {
+    gameState = "menu",
+  };
   // An object that contains Scores Values
   setScore = { 
     playerHP: 15,
@@ -82,7 +91,6 @@ function draw() {
     textSize(40);
     textLeading(10); 
     textAlign(CENTER, CENTER);
-    text("DO NOT PRESS SPACE", width - 230, height/2 - 350);
   }  
   else { 
     modeMenu();
