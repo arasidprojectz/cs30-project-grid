@@ -12,6 +12,8 @@ class Player {
     this.D = 68;
     this.aimAngle = 0;
     this.bulletDistance = 0;
+    this.playerHp = 15;
+    this.healthBar = 2;
   }
 
   // Display image

@@ -19,7 +19,7 @@ let images;
 let sounds;
 let setScore;
 let setTime;
-let state;
+// let state;
 let setBoolean;
 let enemy = [];
 let bullets = [];
@@ -33,6 +33,7 @@ function preload() {
     bulletImg: loadImage("assets/images/fire-ball.png"),
     enemyImg: loadImage("assets/images/enemy.png"),
     coinImg: loadImage("assets/images/coin.png"),
+    plusImg: loadImgae("assets/images/green-plus.png")
   }; 
 
   // An object that contains sounds which are pre-loaded
@@ -54,9 +55,9 @@ function setup() {
   // Make a new coin randomly and it push to array
   coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
   // An object that contains States Values
-  state = {
-    gameState = "menu",
-  };
+  // state = {
+  //   gameState = "menu",
+  // };
   // An object that contains Scores Values
   setScore = { 
     playerHP: 15,
