@@ -34,6 +34,7 @@ function preload() {
   images = { 
     introBG: loadImage("assets/images/bg/intro_bg.png"),
     gameTitle: loadImage("assets/images/text/game_title.png"),
+    newGameTitle: loadImage("assets/images/text/new_game.png"),
     newGame: loadImage("assets/images/text/new_game.png"),
     buttonH: loadImage("assets/images/button/button_h.png"),
     buttonNH: loadImage("assets/images/button/button_nh.png"),
@@ -69,14 +70,19 @@ function setup() {
   // Titles Values
   titles = {
     gameTitleX: width/2,
-    gameTitleY: height/6,
+    gameTitleY: height/8,
     gameTitleW: 600,
     gameTitleH: 150, 
   };
 
-  // Make new buttons
+  // Button Values
   buttons = {
-    newButton: new Button(width/2, height/2),
+    btX: width/2,
+    btY: height/2, 
+    btW: 350,
+    btH: 200,
+    btTitleW: 240,
+    btTitleH: 60,
   };
 
   // Scores Values
@@ -105,12 +111,13 @@ function setup() {
 // Runs the game, if playing game is equal to true
 function draw() {
   if (states.gameState === "toStart") {
-    // sounds.introSound.play(); 
-    // sounds.introSound.setVolume(0.5);
-    background(images.introBG);
     imageMode(CORNER);
+    background(images.introBG);
     displayGTitle();
     makeButton();
+    sounds.introSound.play(); 
+    sounds.introSound.setVolume(0.5);
+    sounds.bgSound.playMode("restart");
   }
 }
 
@@ -122,13 +129,21 @@ function displayGTitle() {
 
 // Get values from button class and use them in button
 function makeButton() {
-  buttons.newButton.displayNewGameTitle();
-  buttons.newButton.checkHovered(mouseX, mouseY);
+  imageMode(CENTER);
+  let d = dist(buttons.btX, buttons.btY, mouseX, mouseY);
+  if (d < 50) {
+    image(images.buttonH, buttons.btX, buttons.btY, buttons.btW, buttons.btH);
+  }
+  else {
+    image(images.buttonNH, buttons.btX, buttons.btY, buttons.btW, buttons.btH);
+  }
+  displayNewButton();
 }
 
-function mousePressed() {
-  buttons.newButton.newButtonPressed();
+function displayNewButton() {
+  image(images.newGameTitle, buttons.btX, buttons.btY, buttons.btTitleW, buttons.btTitleH);
 }
+
 
 
 // Instruction will show up, if or keep track of highest Score
