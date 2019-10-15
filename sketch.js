@@ -23,8 +23,8 @@ let setScore;
 let setTime;
 let setBoolean;
 let states;
-let button;
-let titles;
+// let button;
+// let titles;
 let enemy = [];
 let bullets = [];
 let coins = [];
@@ -66,22 +66,12 @@ function setup() {
     gameState: "toStart",
   };
 
-  // Buttons Values
-  button = {
-    btX: width/2, 
-    btY: height/2,
-    btWidth: 350, 
-    btHeight: 200,
-  };
-
   // Titles Values
   titles = {
     gameTitleX: width/2,
-    gameTitleY: height/5,
+    gameTitleY: height/6,
     gameTitleW: 600,
     gameTitleH: 150, 
-    btTextW: 240, 
-    btTextH: 60,
   };
 
   // Scores Values
@@ -110,18 +100,18 @@ function setup() {
 // Runs the game, if playing game is equal to true
 function draw() {
   if (states.gameState === "toStart") {
+    // sounds.introSound.play(); 
+    // sounds.introSound.setVolume(0.5);
     imageMode(CORNER);
     background(images.introBG);
     displayGTitle();
-    sounds.introSound.play(); 
-    sounds.introSound.setVolume(0.5);
   }
 }
 
 // Game States
 function displayGTitle() {
   imageMode(CENTER);
-  image(images.gameTitle, text.gameTitleX, text.gameTitleY, text.gameTitleW, text.gameTitleH);
+  image(images.gameTitle, titles.gameTitleX, titles.gameTitleY, titles.gameTitleW, titles.gameTitleH);
 }
 
 
