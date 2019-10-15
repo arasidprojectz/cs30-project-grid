@@ -23,8 +23,8 @@ let setScore;
 let setTime;
 let setBoolean;
 let states;
-// let button;
-// let titles;
+let titles;
+let buttons;
 let enemy = [];
 let bullets = [];
 let coins = [];
@@ -74,6 +74,11 @@ function setup() {
     gameTitleH: 150, 
   };
 
+  // Make new buttons
+  buttons = {
+    newButton: new Button(width/2, height/2),
+  };
+
   // Scores Values
   setScore = { 
     playerHP: 15,
@@ -102,9 +107,10 @@ function draw() {
   if (states.gameState === "toStart") {
     // sounds.introSound.play(); 
     // sounds.introSound.setVolume(0.5);
-    imageMode(CORNER);
     background(images.introBG);
+    imageMode(CORNER);
     displayGTitle();
+    makeButton();
   }
 }
 
@@ -112,6 +118,16 @@ function draw() {
 function displayGTitle() {
   imageMode(CENTER);
   image(images.gameTitle, titles.gameTitleX, titles.gameTitleY, titles.gameTitleW, titles.gameTitleH);
+}
+
+// Get values from button class and use them in button
+function makeButton() {
+  buttons.newButton.displayNewGameTitle();
+  buttons.newButton.checkHovered(mouseX, mouseY);
+}
+
+function mousePressed() {
+  buttons.newButton.newButtonPressed();
 }
 
 
