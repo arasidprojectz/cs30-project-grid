@@ -5,44 +5,53 @@
 
 
 // State Assignment:
+// Sounds File
 // States - game, player, enemy
+// player - bullet - two ablities
 // Health bar - player, enemy
-// Enemy Shoot Bullet to Player
+// medkit for player health
+// Enemy Shoot Bullet to Player - AI
 // Day and Night Mode
 // Night Enemy - strong, fast
-// player - bullet - two ablities
-// medkit for player health
 // Map if Possible
+
 
 let player;
 let images;
 let sounds;
 let setScore;
 let setTime;
-// let state;
 let setBoolean;
+let states;
+let button;
+let titles;
 let enemy = [];
 let bullets = [];
 let coins = [];
 
 function preload() {
-  // An object that contains images which are pre-loaded
+  // Images which are pre-loaded
   images = { 
-    bgImg: loadImage("assets/images/background.jpg"),
-    playerImg: loadImage("assets/images/gunfighter.png"),
-    bulletImg: loadImage("assets/images/fire-ball.png"),
-    enemyImg: loadImage("assets/images/enemy.png"),
-    coinImg: loadImage("assets/images/coin.png"),
-    plusImg: loadImgae("assets/images/green-plus.png")
+    introBG: loadImage("assets/images/bg/intro_bg.png"),
+    gameTitle: loadImage("assets/images/text/game_title.png"),
+    newGame: loadImage("assets/images/text/new_game.png"),
+    buttonH: loadImage("assets/images/button/button_h.png"),
+    buttonNH: loadImage("assets/images/button/button_nh.png"),
+    bgImg: loadImage("assets/images/bg/background.jpg"),
+    playerImg: loadImage("assets/images/players/gunfighter.png"),
+    bulletImg: loadImage("assets/images/items/fire-ball.png"),
+    enemyImg: loadImage("assets/images/enemy/enemy.png"),
+    coinImg: loadImage("assets/images/coin/coin.png"),
+    // plusImg: loadImgae("assets/images/green-plus.png")
   }; 
 
-  // An object that contains sounds which are pre-loaded
+  // Sounds which are pre-loaded
   sounds = { 
+    bgSound: loadSound("assets/sounds/background-music.mp3"),
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
     laughSound: loadSound("assets/sounds/laugh.mp3"),
     gameOverSound: loadSound("assets/sounds/game-over.mp3"),
-
   };
 }
 
@@ -50,30 +59,28 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-  // Make a new enemy randomly and push it to array 
-  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
-  // Make a new coin randomly and it push to array
-  coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-  // An object that contains States Values
-  // state = {
-  //   gameState = "menu",
-  // };
-  // An object that contains Scores Values
+
+  // State Values
+  states = {
+    gameState: "toStart",
+  };
+
+  // Scores Values
   setScore = { 
     playerHP: 15,
     coinScore: 0,
     killScore: 0,
   };
 
-  // An object that contains Time Values
+  // Time Values
   setTime = { 
     respawnEnemy: 0,
     respawnCoin: 0,
-    enemyTime: 3000,
-    coinTime: 6000,
+    enemyTime: 800,
+    coinTime: 4000
   };
 
-  // An object that contains Booleans Values
+  // Booleans Values
   setBoolean = {
     playGame: false,
     bulletInteract: false,
@@ -84,21 +91,44 @@ function setup() {
 
 // Runs the game, if playing game is equal to true
 function draw() {
-  background(images.bgImg);
-  if (setBoolean.playGame === true) {
-    modeGame();
-    fill(255, 0, 0);
-    noStroke(255);
-    textSize(40);
-    textLeading(10); 
-    textAlign(CENTER, CENTER);
-  }  
-  else { 
-    modeMenu();
+  // background(images.bgImg);
+  // if (setBoolean.playGame === true) {
+  //   modeGame();
+  // }  
+  // else { 
+  //   modeMenu();
+  // }
+  if (states.gameState === "toStart") {
+    background(images.introBG);
   }
 }
 
 // Game States
+// function makeLoading() {
+//   let loadX = width/2; 
+//   let loadY = height/2;
+//   let loadWidth = 200;
+//   let loadHeight = 20;
+//   let changeWidth = millis();
+
+
+
+//   if (millis() <= 5000) {
+//     changeWidth++;
+//   }
+//   stroke(0);
+//   strokeWeight(6);
+//   noFill();
+//   rect(loadX, loadY, loadWidth, loadHeight);
+
+//   noStroke();
+//   fill(225,0,0);
+//   rect(loadX, loadY, changeWidth, loadHeight);
+  
+// }
+
+
+
 // Instruction will show up, if or keep track of highest Score
 function modeMenu() { 
   textAlign(CENTER, CENTER);
@@ -122,26 +152,30 @@ function modeGame() {
   coinsRespawnRandom();
   checkBullets();
   removeBullet();
+  checkCollided();
   playerHealth();
   drawPlayerHP();
   drawCoinsScore();
   drawKillScore();
 }
 
-function keyPressed() {
-  // Key - Enter
-  if (keyCode === 13) { 
-    setBoolean.playGame = true;
-  }
-  // key - Esc
-  if (keyCode === 32) {
-    sounds.laughSound.play();
-    setBoolean.playGame = false;
-    setScore.coinScore = 0; 
-    setScore.killScore = 0;
-    modeMenu();
-  }
-}
+// function keyPressed() {
+//   // Key - Enter
+//   if (keyCode === 13) { 
+//     setBoolean.playGame = true;
+//     sounds.bgSound.setVolume(0.5);
+//     sounds.bgSound.play();
+//     sounds.bgSound.playMode("resetart");
+//   }
+//   // key - Esc
+//   if (keyCode === 32) {
+//     sounds.laughSound.play();
+//     setBoolean.playGame = false;
+//     setScore.coinScore = 0; 
+//     setScore.killScore = 0;
+//     modeMenu();
+//   }
+// }
 
 // Get values from player class and use them in player
 function makePlayer() {
@@ -163,28 +197,16 @@ function checkBullets() {
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
     bullets[i].shootBullets();
-    bullets[i].update();
-    // Check if bullet and enemy collide, if true, delete bullet and enemy that collided
-    for (let e=0; e<enemy.length; e++) { 
-      setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
-        bullets[i].bulletX, bullets[i].bulletY, bullets[i].radius, bullets[i].radius);
-      if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
-        setBoolean.bulletIsCollide = true;
-        bullets.splice(i, 1);
-        enemy.splice(e, 1);
-        setScore.killScore += 1;
-      } 
-      if (setBoolean.bulletIsCollide === true && !setBoolean.bulletInteract) {
-        setBoolean.bulletIsCollide = false;
-      }
-    }  
+    bullets[i].update();  
   }
 }
 
 // Make a new bullet, if mouse pressed and push it to array 
 function mousePressed() {
-  sounds.shootSound.play();
   bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
+  // sounds.shootSound.setVolume(0.5);
+  // sounds.shootSound.play();
+  // sounds.shootSound.playMode("restart");
 }
 
 // If bullet length more than one, delete last bullet
@@ -212,6 +234,27 @@ function enemyRespawnRandom() {
   } 
 }
 
+
+
+// Check if bullet and enemy collide, if true, delete bullet and enemy that collided
+function checkCollided() {
+  for (let e=0; e<enemy.length; e++) { 
+    for (let b=0; b<bullets.length; b++) {
+      setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
+        bullets[b].bulletX, bullets[b].bulletY, bullets[b].radius, bullets[b].radius);
+      if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
+        setBoolean.bulletIsCollide = true;
+        bullets.splice(b, 1);
+        enemy.splice(e, 1);
+        setScore.killScore += 1;
+      } 
+      if (setBoolean.bulletIsCollide === true && !setBoolean.bulletInteract) {
+        setBoolean.bulletIsCollide = false;
+      }
+    }
+  }
+}
+  
 // Make a new coins every six seconds and push it to array 
 function generateCoins() {
   if (millis() > setTime.respawnCoin + setTime.coinTime) {
@@ -220,7 +263,7 @@ function generateCoins() {
   }
 } 
 
-
+  
 // Get Values from coin class and use them in coin array
 function coinsRespawnRandom() {
   for (let i=0; i<coins.length; i++) {

@@ -17,6 +17,7 @@ class Coin {
   collisionWithPlayer() {
     this.interact = collideRectRect(this.coinX, this.coinY, this.coinSize, this.coinSize, player.playerX, player.playerY, player.playerWidth, player.playerHeight);
     if (this.interact === true && !this.isCollide) {
+      sounds.coinSound.setVolume(0.5);
       sounds.coinSound.play();
       setScore.coinScore += 1;
       this.isCollide = true;
