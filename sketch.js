@@ -47,6 +47,7 @@ function preload() {
 
   // Sounds which are pre-loaded
   sounds = { 
+    introSound: loadSound("assets/sounds/intro-music.wav"),
     bgSound: loadSound("assets/sounds/background-music.mp3"),
     coinSound: loadSound("assets/sounds/collet-coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot-bullet.mp3"),
@@ -63,6 +64,24 @@ function setup() {
   // State Values
   states = {
     gameState: "toStart",
+  };
+
+  // Buttons Values
+  button = {
+    btX: width/2, 
+    btY: height/2,
+    btWidth: 350, 
+    btHeight: 200,
+  };
+
+  // Titles Values
+  titles = {
+    gameTitleX: width/2,
+    gameTitleY: height/5,
+    gameTitleW: 600,
+    gameTitleH: 150, 
+    btTextW: 240, 
+    btTextH: 60,
   };
 
   // Scores Values
@@ -82,7 +101,6 @@ function setup() {
 
   // Booleans Values
   setBoolean = {
-    playGame: false,
     bulletInteract: false,
     bulletIsCollide: false,
     zeroHealth: false,
@@ -91,42 +109,20 @@ function setup() {
 
 // Runs the game, if playing game is equal to true
 function draw() {
-  // background(images.bgImg);
-  // if (setBoolean.playGame === true) {
-  //   modeGame();
-  // }  
-  // else { 
-  //   modeMenu();
-  // }
   if (states.gameState === "toStart") {
+    imageMode(CORNER);
     background(images.introBG);
+    displayGTitle();
+    sounds.introSound.play(); 
+    sounds.introSound.setVolume(0.5);
   }
 }
 
 // Game States
-// function makeLoading() {
-//   let loadX = width/2; 
-//   let loadY = height/2;
-//   let loadWidth = 200;
-//   let loadHeight = 20;
-//   let changeWidth = millis();
-
-
-
-//   if (millis() <= 5000) {
-//     changeWidth++;
-//   }
-//   stroke(0);
-//   strokeWeight(6);
-//   noFill();
-//   rect(loadX, loadY, loadWidth, loadHeight);
-
-//   noStroke();
-//   fill(225,0,0);
-//   rect(loadX, loadY, changeWidth, loadHeight);
-  
-// }
-
+function displayGTitle() {
+  imageMode(CENTER);
+  image(images.gameTitle, text.gameTitleX, text.gameTitleY, text.gameTitleW, text.gameTitleH);
+}
 
 
 // Instruction will show up, if or keep track of highest Score
