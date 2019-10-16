@@ -22,7 +22,6 @@ let setScore;
 let setTime;
 let setBoolean;
 let states;
-let titles;
 let buttons;
 let enemy = [];
 let bullets = [];
@@ -60,7 +59,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-
+  // State Values
+  states = {
+    attack: "aBullet",
+  };
   setScore = { 
     playerHP: 15,
     coinScore: 0,
@@ -89,12 +91,6 @@ function draw() {
   background(images.bgImg);
   if (setBoolean.playGame === true) {
     modeGame();
-    fill(255, 0, 0);
-    noStroke(255);
-    textSize(40);
-    textLeading(10); 
-    textAlign(CENTER, CENTER);
-    text("DO NOT PRESS SPACE", width - 230, height/2 - 350);
   }  
   else { 
     modeMenu();
@@ -102,30 +98,6 @@ function draw() {
 }
 
 // Game States
-function displayGTitle() {
-  imageMode(CENTER);
-  image(images.gameTitle, titles.gameTitleX, titles.gameTitleY, titles.gameTitleW, titles.gameTitleH);
-}
-
-// Get values from button class and use them in button
-function makeButton() {
-  imageMode(CENTER);
-  let d = dist(buttons.btX, buttons.btY, mouseX, mouseY);
-  if (d < 50) {
-    image(images.buttonH, buttons.btX, buttons.btY, buttons.btW, buttons.btH);
-  }
-  else {
-    image(images.buttonNH, buttons.btX, buttons.btY, buttons.btW, buttons.btH);
-  }
-  displayNewButton();
-}
-
-function displayNewButton() {
-  image(images.newGameTitle, buttons.btX, buttons.btY, buttons.btTitleW, buttons.btTitleH);
-}
-
-
-
 // Instruction will show up, if or keep track of highest Score
 function modeMenu() { 
   textAlign(CENTER, CENTER);
@@ -164,15 +136,7 @@ function keyPressed() {
     sounds.bgSound.play();
     sounds.bgSound.playMode("resetart");
   }
-  // key - Esc
-  if (keyCode === 32) {
-    sounds.laughSound.play();
-    setBoolean.playGame = false;
-    setScore.coinScore = 0; 
-    setScore.killScore = 0;
-    modeMenu();
-  }
-}
+} 
 
 // Get values from player class and use them in player
 function makePlayer() {
@@ -200,10 +164,12 @@ function checkBullets() {
 
 // Make a new bullet, if mouse pressed and push it to array 
 function mousePressed() {
-  bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
-  // sounds.shootSound.setVolume(0.5);
-  // sounds.shootSound.play();
-  // sounds.shootSound.playMode("restart");
+  if (states.attack === "aBullet") {
+    bullets.push(new Bullet(player.playerX + 50, player.playerY + 50));  
+  }
+  sounds.shootSound.setVolume(0.5);
+  sounds.shootSound.play();
+  sounds.shootSound.playMode("restart");
 }
 
 // If bullet length more than one, delete last bullet
