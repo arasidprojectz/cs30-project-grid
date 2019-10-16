@@ -1,7 +1,8 @@
-// CS30 Project - State Assignment
+// CS30 Project - Interactive Scene
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
+<<<<<<< HEAD
 
 
 // State Assignment:
@@ -14,6 +15,15 @@
 // Day and Night Mode
 // Night Enemy - strong, fast
 // Map if Possible
+=======
+//  - Polar Coordinates 
+//      - Return angle and distance which bullet travels
+//  - Add Music
+//      - Collet Coin
+//      - Shoot Bullets
+//      - Game Over
+//      - Laugh
+>>>>>>> parent of 946e9a7... State Assignment Ideas
 
 
 let player;
@@ -61,6 +71,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
+<<<<<<< HEAD
 
   // State Values
   states = {
@@ -86,6 +97,13 @@ function setup() {
   };
 
   // Scores Values
+=======
+  // Make a new enemy randomly and push it to array 
+  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
+  // Make a new coin randomly and it push to array
+  coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
+  // An object that contains Scores Values
+>>>>>>> parent of 946e9a7... State Assignment Ideas
   setScore = { 
     playerHP: 15,
     coinScore: 0,
@@ -110,6 +128,7 @@ function setup() {
 
 // Runs the game, if playing game is equal to true
 function draw() {
+<<<<<<< HEAD
   if (states.gameState === "toStart") {
     imageMode(CORNER);
     background(images.introBG);
@@ -118,6 +137,20 @@ function draw() {
     sounds.introSound.play(); 
     sounds.introSound.setVolume(0.5);
     sounds.bgSound.playMode("restart");
+=======
+  background(images.bgImg);
+  if (setBoolean.playGame === true) {
+    modeGame();
+    fill(255, 0, 0);
+    noStroke(255);
+    textSize(40);
+    textLeading(10); 
+    textAlign(CENTER, CENTER);
+    text("DO NOT PRESS SPACE", width - 230, height/2 - 350);
+  }  
+  else { 
+    modeMenu();
+>>>>>>> parent of 946e9a7... State Assignment Ideas
   }
 }
 
