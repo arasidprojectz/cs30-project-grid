@@ -2,7 +2,6 @@
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
-<<<<<<< HEAD
 
 
 // State Assignment:
@@ -15,16 +14,6 @@
 // Day and Night Mode
 // Night Enemy - strong, fast
 // Map if Possible
-=======
-//  - Polar Coordinates 
-//      - Return angle and distance which bullet travels
-//  - Add Music
-//      - Collet Coin
-//      - Shoot Bullets
-//      - Game Over
-//      - Laugh
->>>>>>> parent of 946e9a7... State Assignment Ideas
-
 
 let player;
 let images;
@@ -71,39 +60,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-<<<<<<< HEAD
 
-  // State Values
-  states = {
-    gameState: "toStart",
-  };
-
-  // Titles Values
-  titles = {
-    gameTitleX: width/2,
-    gameTitleY: height/8,
-    gameTitleW: 600,
-    gameTitleH: 150, 
-  };
-
-  // Button Values
-  buttons = {
-    btX: width/2,
-    btY: height/2, 
-    btW: 350,
-    btH: 200,
-    btTitleW: 240,
-    btTitleH: 60,
-  };
-
-  // Scores Values
-=======
-  // Make a new enemy randomly and push it to array 
-  enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY)));
-  // Make a new coin randomly and it push to array
-  coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-  // An object that contains Scores Values
->>>>>>> parent of 946e9a7... State Assignment Ideas
   setScore = { 
     playerHP: 15,
     coinScore: 0,
@@ -120,6 +77,7 @@ function setup() {
 
   // Booleans Values
   setBoolean = {
+    playGame: false,
     bulletInteract: false,
     bulletIsCollide: false,
     zeroHealth: false,
@@ -128,16 +86,6 @@ function setup() {
 
 // Runs the game, if playing game is equal to true
 function draw() {
-<<<<<<< HEAD
-  if (states.gameState === "toStart") {
-    imageMode(CORNER);
-    background(images.introBG);
-    displayGTitle();
-    makeButton();
-    sounds.introSound.play(); 
-    sounds.introSound.setVolume(0.5);
-    sounds.bgSound.playMode("restart");
-=======
   background(images.bgImg);
   if (setBoolean.playGame === true) {
     modeGame();
@@ -150,7 +98,6 @@ function draw() {
   }  
   else { 
     modeMenu();
->>>>>>> parent of 946e9a7... State Assignment Ideas
   }
 }
 
@@ -209,23 +156,23 @@ function modeGame() {
   drawKillScore();
 }
 
-// function keyPressed() {
-//   // Key - Enter
-//   if (keyCode === 13) { 
-//     setBoolean.playGame = true;
-//     sounds.bgSound.setVolume(0.5);
-//     sounds.bgSound.play();
-//     sounds.bgSound.playMode("resetart");
-//   }
-//   // key - Esc
-//   if (keyCode === 32) {
-//     sounds.laughSound.play();
-//     setBoolean.playGame = false;
-//     setScore.coinScore = 0; 
-//     setScore.killScore = 0;
-//     modeMenu();
-//   }
-// }
+function keyPressed() {
+  // Key - Enter
+  if (keyCode === 13) { 
+    setBoolean.playGame = true;
+    sounds.bgSound.setVolume(0.5);
+    sounds.bgSound.play();
+    sounds.bgSound.playMode("resetart");
+  }
+  // key - Esc
+  if (keyCode === 32) {
+    sounds.laughSound.play();
+    setBoolean.playGame = false;
+    setScore.coinScore = 0; 
+    setScore.killScore = 0;
+    modeMenu();
+  }
+}
 
 // Get values from player class and use them in player
 function makePlayer() {
