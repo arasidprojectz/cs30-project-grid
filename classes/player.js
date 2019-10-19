@@ -2,8 +2,8 @@ class Player {
   constructor(x, y) {
     this.playerX = x; 
     this.playerY = y; 
-    this.playerDX = 4;
-    this.playerDY = 4;
+    this.playerDx = 4;
+    this.playerDy = 4;
     this.playerWidth = 100; 
     this.playerHeight = 150; 
     this.W = 87;
@@ -12,8 +12,12 @@ class Player {
     this.D = 68;
     this.aimAngle = 0;
     this.bulletDistance = 0;
+<<<<<<< HEAD
     this.playerHp = 15;
     this.healthBar = 2;
+=======
+    this.interact = false;
+>>>>>>> parent of dcf5ce0... Change letter case
   }
 
   // Display image
@@ -30,16 +34,16 @@ class Player {
   // Move using WASD && can not go off screen
   movePlayer() { 
     if (keyIsDown(this.D) && this.playerX < width - this.playerWidth) {
-      this.playerX += this.playerDX;
+      this.playerX += this.playerDx;
     } 
     if (keyIsDown(this.A) && this.playerX > 0) {
-      this.playerX -= this.playerDX;
+      this.playerX -= this.playerDx;
     } 
     if (keyIsDown(this.W) && this.playerY > 0) {
-      this.playerY -= this.playerDY;
+      this.playerY -= this.playerDy;
     } 
     if (keyIsDown(this.S) && this.playerY < height - this.playerHeight) {
-      this.playerY += this.playerDY;
+      this.playerY += this.playerDy;
     }
   }
 

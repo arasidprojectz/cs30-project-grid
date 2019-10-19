@@ -2,9 +2,9 @@ class Enemy {
   constructor(x, y) {
     this.enemyX = x;
     this.enemyY = y;
-    this.enemyDX = random(3, 5); 
-    this.enemyDY = random(3, 5);
     this.enemySize = 50;
+    this.enemyDx = random(3, 5); 
+    this.enemyDy = random(3, 5);
     this.bulletDistance;
     this.playerInteract = false;
     this.playerIsCollide = false;
@@ -18,16 +18,16 @@ class Enemy {
 
   // Update x and y values with dx and dy
   update() { // keep adding x through dx and y thorugh dy
-    this.enemyX += this.enemyDX; 
-    this.enemyY += this.enemyDY;
+    this.enemyX += this.enemyDx; 
+    this.enemyY += this.enemyDy;
   }
 
   // Image Bounce at Edges, if needed so, doesn't go off screen
   bounceEnemy() {
     if (this.enemyX > width - this.enemySize || this.enemyX < 0) {
-      this.enemyDX *= -1;
+      this.enemyDx *= -1;
     } if (this.enemyY > height - this.enemySize || this.enemyY < 0) {
-      this.enemyDY *= -1;
+      this.enemyDy *= -1;
     }
   }
 
