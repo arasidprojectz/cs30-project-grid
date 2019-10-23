@@ -1,4 +1,4 @@
-// CS30 Project - Interactive Scene
+// CS30 Project - State Variable
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
@@ -31,17 +31,18 @@ function preload() {
   // Images which are pre-loaded
   images = { 
     introBG: loadImage("assets/images/bg/intro_bg.png"),
+    gameBG: loadImage("assets/images/bg/game_bg.jpg"),
+
     gameTitle: loadImage("assets/images/text/game_title.png"),
     newGameTitle: loadImage("assets/images/text/new_game.png"),
-    newGame: loadImage("assets/images/text/new_game.png"),
+
     buttonH: loadImage("assets/images/button/button_h.png"),
     buttonNH: loadImage("assets/images/button/button_nh.png"),
-    bgImg: loadImage("assets/images/bg/background.jpg"),
+
     playerImg: loadImage("assets/images/players/gunfighter.png"),
     bulletImg: loadImage("assets/images/items/fire-ball.png"),
     enemyImg: loadImage("assets/images/enemy/enemy.png"),
     coinImg: loadImage("assets/images/coin/coin.png"),
-    // plusImg: loadImgae("assets/images/green-plus.png")
   }; 
 
   // Sounds which are pre-loaded
@@ -64,7 +65,7 @@ function setup() {
     attack: "aBullet",
   };
   setScore = { 
-    playerHP: 15,
+    playerHP: 100,
     coinScore: 0,
     killScore: 0,
   };
@@ -88,7 +89,7 @@ function setup() {
 
 // Runs the game, if playing game is equal to true
 function draw() {
-  background(images.bgImg);
+  background(images.gameBG);
   if (setBoolean.playGame === true) {
     modeGame();
   }  
