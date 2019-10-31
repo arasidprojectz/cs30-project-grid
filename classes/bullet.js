@@ -22,8 +22,8 @@ class Bullet {
   // Use angle given by player, change the values of dx and dy
   shootBullets() {
     this.angle = player.aimAngle;
-    this.bulletDX = player.bulletDistance * cos(this.angle)*8;
-    this.bulletDY = player.bulletDistance * sin(this.angle)*8;
+    this.bulletDX = player.bulletDistance * cos(this.angle)*6;
+    this.bulletDY = player.bulletDistance * sin(this.angle)*6;
   }
 } 
 

@@ -26,15 +26,13 @@ let buttons;
 let enemy = [];
 let bullets = [];
 let coins = [];
+let bulletList = new Array();
 
 function preload() {
   // Images which are pre-loaded
   images = { 
     introBG: loadImage("assets/images/bg/intro_bg.png"),
     gameBG: loadImage("assets/images/bg/game_bg.jpg"),
-
-    gameTitle: loadImage("assets/images/text/game_title.png"),
-    newGameTitle: loadImage("assets/images/text/new_game.png"),
 
     buttonH: loadImage("assets/images/button/button_h.png"),
     buttonNH: loadImage("assets/images/button/button_nh.png"),
@@ -62,7 +60,7 @@ function setup() {
   player = new Player(width/2, height/2);
   // State Values
   states = {
-    attack: "aBullet",
+
   };
   setScore = { 
     playerHP: 100,
@@ -175,8 +173,11 @@ function mousePressed() {
 
 // If bullet length more than one, delete last bullet
 function removeBullet() {
-  if (bullets.length > 1) {
-    bullets.splice(0, 1);
+  for (let i = bullets.length; i < 0; i--) {
+    if (bullets[i].bulletX < 0 || bullets[i].bulletX > width || 
+        bullets[i].bulletY < 0 || bullets[i].bulletY > height) {
+        bullets.splice(i, 1);
+        }
   }
 }
 
@@ -197,8 +198,6 @@ function enemyRespawnRandom() {
     enemy[i].interactWithPlayer();
   } 
 }
-
-
 
 // Check if bullet and enemy collide, if true, delete bullet and enemy that collided
 function checkCollided() {
