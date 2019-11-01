@@ -4,14 +4,13 @@ class Bullet {
     this.bulletY = pY; 
     this.bulletDX = 0;
     this.bulletDY = 0;
-    this.radius = 15;   
     this.angle = 0;
   }
   
   // Display a image 
-  displayBullets() {
-    image(images.bulletImg, this.bulletX, this.bulletY, this.radius, this.radius);
-  }
+  // displayBullets() {
+  //   image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
+  // }
 
   // Update x and y values with dx and dy
   update() {
@@ -27,4 +26,24 @@ class Bullet {
   }
 } 
 
+class Fire extends Bullet {
+  constructor(pX, pY) {
+    super(pX, pY);
+    this.radius = 15;
+  }
 
+  displayBullets() {
+    image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
+  }
+} 
+
+class Boomerang extends Bullet {
+  constructor(pX, pY) {
+    super(pX, pY);
+    this.radius = 15;
+  }
+
+  displayBullets() {
+    image(images.boomerangImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
+  }
+}
