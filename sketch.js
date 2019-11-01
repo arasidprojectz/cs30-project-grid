@@ -97,7 +97,7 @@ function setup() {
   };
 }
 
-// Runs the game, if playing game is equal to true
+
 function draw() {
   imageMode(CORNER);
   if (states.game === "toStart") {
@@ -132,22 +132,22 @@ function draw() {
 }
 
 // Mouse Cursor
-function mouseMoved() {
+function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
   noCursor();
   gameSetup.cursorX = mouseX;
   gameSetup.cursorY = mouseY;
 }
 
-function displayGameCursor() {
+function displayGameCursor() { // Display image
   image(images.inGameCursorImg, gameSetup.cursorX, gameSetup.cursorY, gameSetup.cursorSize, gameSetup.cursorSize);
 }
 
-function displayCursor() {
+function displayCursor() { // Display image
   image(images.cursorImg, gameSetup.cursorX, gameSetup.cursorY, gameSetup.cursorSize, gameSetup.cursorSize);
 }
 
 // Title
-function displayTitles() {
+function displayTitles() { // Display all titles in game
   let titleX = width/2; 
   let titleY = height/5; 
   let titleW = 800; 
@@ -172,7 +172,7 @@ function displayTitles() {
 }
 
 // Game States
-function gameGuide() { 
+function gameGuide() { // Show guide, pressed esc to exit
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(30);
@@ -185,7 +185,7 @@ function gameGuide() {
   }
 }
 
-function gameRun() {
+function gameRun() { // Runs the game
   makePlayer();
   generateEnemy(); 
   generateCoins();
@@ -198,13 +198,13 @@ function gameRun() {
   drawUpdate();
 }
 
-function gameStatus() {
+function gameStatus() { // If game over, reset everything
   fill(255);
   textSize(40);
   text("Coin Score: " + setScore.coinScore, width/2, height/2);
   text("Kills Score: " + setScore.killScore, width/2, height/2 + 80);
   text("PRESS SPACE TO RESTART!", width/2, height/2 + 150);
-  if (keyIsPressed && keyCode === 32) {
+  if (keyIsPressed && keyCode === 32) { 
     states.game = "runGame";
     player = new Player(width/2, height/2);
     enemy = [];
@@ -215,7 +215,7 @@ function gameStatus() {
   } 
 }
 
-function makeButton() {
+function makeButton() { // Display buttons, if mouse pressed change state
   imageMode(CENTER);
   if (mouseX > width/2 - 180 && mouseX < width/2 + 210 &&
     mouseY > height/2 && mouseY < height/2 + 80) {
@@ -240,7 +240,7 @@ function makeButton() {
   }
 }
 
-function makeBulletList() {
+function makeBulletList() { // Draw text, if mouse pressed, game start
   textAlign(CENTER);
   fill(255);
   textSize(30);
@@ -251,7 +251,7 @@ function makeBulletList() {
   } 
 }
 
-function displayOptions() {
+function displayOptions() { // Display bullet options, if clicked, set bullet to that value
   let bX = width/2; 
   let bY = height/2;
   let bSize = 50; 
