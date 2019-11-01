@@ -2,18 +2,7 @@
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
-
-
-// State Assignment:
-// Sounds File
-// States - game, player, enemy
-// player - bullet - two ablities
-// Health bar - player, enemy
-// medkit for player health
-// Enemy Shoot Bullet to Player - AI
-// Day and Night Mode
-// Night Enemy - strong, fast
-// Map if Possible
+//  - Basic AI for Enemy - Follow Player
 
 let player;
 let images;
@@ -35,11 +24,9 @@ function preload() {
     gameBG: loadImage("assets/images/bg/game_bg.jpg"),
     cursorImg: loadImage("assets/images/items/cursor.png"),
     inGameCursorImg: loadImage("assets/images/items/target.png"),
-
     gameTitleImg: loadImage("assets/images/text/game_title.png"),
     newGameTitle: loadImage("assets/images/text/new_game.png"),
     guideTitle: loadImage("assets/images/text/guide_title.png"),
-
     buttonH: loadImage("assets/images/button/button_h.png"),
     buttonNH: loadImage("assets/images/button/button_nh.png"),
     playerImg: loadImage("assets/images/players/gunfighter.png"),
