@@ -12,8 +12,6 @@ class Player {
     this.D = 68;
     this.aimAngle = 0;
     this.bulletDistance = 0;
-    this.playerHp = 15;
-    this.healthBar = 2;
   }
 
   // Display image
@@ -22,7 +20,7 @@ class Player {
   }
 
   // Calculate Distance from player postion to mouse postion
-  angleOfBullets(mX, mY) {
+  angleOfBullets(mY, mX) {
     this.aimAngle = atan2(this.playerY - mY,this.playerX - mX);
     this.bulletDistance = -10;
   }

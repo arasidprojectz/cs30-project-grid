@@ -6,11 +6,6 @@ class Bullet {
     this.bulletDY = 0;
     this.angle = 0;
   }
-  
-  // Display a image 
-  // displayBullets() {
-  //   image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
-  // }
 
   // Update x and y values with dx and dy
   update() {
@@ -21,28 +16,32 @@ class Bullet {
   // Use angle given by player, change the values of dx and dy
   shootBullets() {
     this.angle = player.aimAngle;
-    this.bulletDX = player.bulletDistance * cos(this.angle)*6;
-    this.bulletDY = player.bulletDistance * sin(this.angle)*6;
+    this.bulletDX = player.bulletDistance * cos(this.angle)*8;
+    this.bulletDY = player.bulletDistance * sin(this.angle)*8;
   }
 } 
 
+// Extends of bullet class
 class Fire extends Bullet {
   constructor(pX, pY) {
     super(pX, pY);
     this.radius = 15;
   }
 
-  displayBullets() {
+  // Show image
+  displayBullets() { 
     image(images.bulletImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
   }
 } 
 
+// Extends of bullet class
 class Boomerang extends Bullet {
   constructor(pX, pY) {
     super(pX, pY);
-    this.radius = 15;
+    this.radius = 25;
   }
 
+  // Show image
   displayBullets() {
     image(images.boomerangImg, this.bulletX, this.bulletY, this.radius*2, this.radius*2);
   }

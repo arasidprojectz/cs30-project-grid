@@ -15,22 +15,8 @@ class Enemy {
   displayEnemy() {
     image(images.enemyImg, this.enemyX, this.enemyY, this.enemySize, this.enemySize);
   }
-
-  // Update x and y values with dx and dy
-  // update() { // keep adding x through dx and y thorugh dy
-  //   this.enemyX += this.enemyDX; 
-  //   this.enemyY += this.enemyDY;
-  // }
-
-  // Image Bounce at Edges, if needed so, doesn't go off screen
-  // bounceEnemy() {
-  //   if (this.enemyX > width - this.enemySize || this.enemyX < 0) {
-  //     this.enemyDX *= -1;
-  //   } if (this.enemyY > height - this.enemySize || this.enemyY < 0) {
-  //     this.enemyDY *= -1;
-  //   }
-  // }
-
+  
+  // Move the enemy toward the player
   updatePosition() {
     let posX = player.playerX - this.enemyX;
     let posY = player.playerY - this.enemyY;

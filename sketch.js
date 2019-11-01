@@ -33,14 +33,15 @@ function preload() {
   images = { 
     introBG: loadImage("assets/images/bg/intro_bg.jpg"),
     gameBG: loadImage("assets/images/bg/game_bg.jpg"),
+    cursorImg: loadImage("assets/images/items/cursor.png"),
+    inGameCursorImg: loadImage("assets/images/items/target.png"),
 
+    gameTitleImg: loadImage("assets/images/text/game_title.png"),
+    newGameTitle: loadImage("assets/images/text/new_game.png"),
+    guideTitle: loadImage("assets/images/text/guide_title.png"),
 
     buttonH: loadImage("assets/images/button/button_h.png"),
     buttonNH: loadImage("assets/images/button/button_nh.png"),
-
-    cursorImg: loadImage("assets/images/items/cursor.png"),
-    targetImg: loadImage("assets/images/items/target.png"),
-
     playerImg: loadImage("assets/images/players/gunfighter.png"),
     bulletImg: loadImage("assets/images/items/fire_ball.png"),
     boomerangImg: loadImage("assets/images/items/boomerang.png"),
@@ -76,7 +77,8 @@ function setup() {
 
   // State Values
   states = {
-    game: "toStart"
+    game: "toStart",
+    attack: " ",
   };
 
   // Make an array of bullets
@@ -114,6 +116,7 @@ function draw() {
   if (states.game === "toStart") {
     background(images.introBG);
     makeButton();
+    displayTitles();
     displayCursor();
   }
   
@@ -126,19 +129,18 @@ function draw() {
     background(images.gameBG);
     makeBulletList();
     displayOptions();
+    displayCursor();
   }
   
   if (states.game === "runGame") {
     background(images.gameBG);
     gameRun();
-    displayCursor();
+    displayGameCursor();
   }
 
   if (states.game === "gameOver") {
     background(images.gameBG);
     gameStatus();
-    displayCursor();
-
   } 
 }
 
@@ -149,8 +151,37 @@ function mouseMoved() {
   gameSetup.cursorY = mouseY;
 }
 
+function displayGameCursor() {
+  image(images.inGameCursorImg, gameSetup.cursorX, gameSetup.cursorY, gameSetup.cursorSize, gameSetup.cursorSize);
+}
+
 function displayCursor() {
   image(images.cursorImg, gameSetup.cursorX, gameSetup.cursorY, gameSetup.cursorSize, gameSetup.cursorSize);
+}
+
+// Title
+function displayTitles() {
+  let titleX = width/2; 
+  let titleY = height/5; 
+  let titleW = 800; 
+  let titleH = 250;
+  let nSideW = 250; 
+  let nSideH = 50;
+  let gSideW = 180; 
+  let gSideH = 50;
+
+
+  // Game Title
+  imageMode(CENTER);
+  image(images.gameTitleImg, titleX, titleY, titleW, titleH);
+
+  // New Game Title
+  imageMode(CENTER);
+  image(images.newGameTitle, gameSetup.buttonX, gameSetup.buttonY + 20, nSideW, nSideH);
+
+  // Guide Title
+  imageMode(CENTER);
+  image(images.guideTitle, gameSetup.buttonX, gameSetup.buttonY + 150, gSideW, gSideH);
 }
 
 // Game States
@@ -188,11 +219,12 @@ function gameStatus() {
   text("PRESS SPACE TO RESTART!", width/2, height/2 + 150);
   if (keyIsPressed && keyCode === 32) {
     states.game = "runGame";
+    player = new Player(width/2, height/2);
+    enemy = [];
+    coins = [];
     setScore.coinScore = 0;
     setScore.killScore = 0;
     setScore.playerHP = 10;
-    enemy = [];
-    coins = [];
   } 
 }
 
@@ -225,7 +257,7 @@ function makeBulletList() {
   textAlign(CENTER);
   fill(255);
   textSize(30);
-  text("Select a Bullet", width/2, height/2 - 100);
+  text("Select an Option", width/2, height/2 - 100);
   text("PRESS ENTER TO START!", width/2, height/2 + 120);
   if (keyIsPressed && keyCode === 13) {
     states.game = "runGame";
@@ -236,17 +268,85 @@ function displayOptions() {
   let bX = width/2; 
   let bY = height/2;
   let bSize = 50; 
+  let rectSize = 100;
 
-  imageMode(CENTER);
-  image(images.bulletImg, bX - 100, bY, bSize, bSize);
-  image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+  // Show Option 1 - fire
+  if (mouseX > bX - 150 && mouseX < bX - 50 && mouseY > bY - 50 && mouseY < bY + 50) {
+      push();
+      noFill();
+      stroke(255, 255, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX - 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.bulletImg, bX - 100, bY, bSize, bSize);
+      pop();
+      if (mouseIsPressed) {
+        states.attack = bulletList[0];
+        fill(255, 0, 0);
+        textSize(30);
+        text("FIRE SELECTED!", width/2, height/2 + 180);
+      }
+    }
+    else {
+      push();
+      noFill();
+      stroke(225, 0, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX - 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.bulletImg, bX - 100, bY, bSize, bSize);
+      pop();
+    }
+
+  // Show Option 2 - Boomerang
+  if (mouseX > bX - 50 && mouseX < bX  + 150 && mouseY > bY - 50 && mouseY < bY + 50) {
+      push();
+      noFill();
+      stroke(255, 255, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX + 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+      pop();
+      if (mouseIsPressed) {
+        states.attack = bulletList[1];
+        fill(255, 0, 0);
+        textSize(30);
+        text("BOOMERANG SELECTED!", width/2, height/2 + 180);
+      }
+    }
+    else {
+      push();
+      noFill();
+      stroke(225, 0, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX + 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+      pop();
+    }
 }
+
+// Apply the value of bulletList and make new bullet
+function bulletOptions() {
+  if (states.attack === bulletList[0]) {
+    bullets.push(new Fire(player.playerX + 50, player.playerY + 50));  
+  }
+  else {
+    bullets.push(new Boomerang(player.playerX + 50, player.playerY + 50));  
+  }
+}
+
 
 // Get values from player class and use them in player
 function makePlayer() {
   player.displayPlayer();
   player.movePlayer();
-  player.angleOfBullets(mouseX, mouseY);
+  player.angleOfBullets(mouseY, mouseX);
 }
 
 // If player health less than or equal to zero, game over
@@ -270,7 +370,7 @@ function checkBullets() {
 function mousePressed() {
   if (states.game === "runGame") {
     if (millis() > setTime.respawnBullet + setTime.bulletTime) {
-      bullets.push(new Fire(player.playerX + 50, player.playerY + 50));  
+      bulletOptions();
       setTime.respawnBullet = millis();
       sounds.shootSound.setVolume(0.5);
       sounds.shootSound.play();
