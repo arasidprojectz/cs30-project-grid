@@ -1,8 +1,16 @@
-// CS30 Project - State Variable
+// CS30 Project - Grid Based Assignment
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
-//  - Basic AI for Enemy - Follow Player
+
+// Grid Based Assignment:
+// Title Map - Random
+// Inventory - Pick and Drop
+// Resource - coins - potion
+// Health bar - player, enemy
+// Enemy Shoot Bullet to Player
+// Shop - Hero and items
+// Map if possible
 
 let player;
 let images;
@@ -51,6 +59,11 @@ function setup() {
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
   
+  // Make an array of bullets
+  bulletList = new Array();
+  bulletList[0] = "fireBall";
+  bulletList[1] = "boomerang";
+
   // Button and Cursor Values
   gameSetup = {
     cursorX: width/2, 
@@ -67,11 +80,6 @@ function setup() {
     game: "toStart",
     attack: " ",
   };
-
-  // Make an array of bullets
-  bulletList = new Array();
-  bulletList[0] = "fireBall";
-  bulletList[1] = "boomerang";
 
   // Score Values
   setScore = { 
@@ -259,63 +267,63 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
 
   // Show Option 1 - fire
   if (mouseX > bX - 150 && mouseX < bX - 50 && mouseY > bY - 50 && mouseY < bY + 50) {
-      push();
-      noFill();
-      stroke(255, 255, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX - 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.bulletImg, bX - 100, bY, bSize, bSize);
-      pop();
-      if (mouseIsPressed) {
-        states.attack = bulletList[0];
-        fill(255, 0, 0);
-        textSize(30);
-        text("FIRE SELECTED!", width/2, height/2 + 180);
-      }
+    push();
+    noFill();
+    stroke(255, 255, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX - 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.bulletImg, bX - 100, bY, bSize, bSize);
+    pop();
+    if (mouseIsPressed) {
+      states.attack = bulletList[0];
+      fill(255, 0, 0);
+      textSize(30);
+      text("FIRE SELECTED!", width/2, height/2 + 180);
     }
-    else {
-      push();
-      noFill();
-      stroke(225, 0, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX - 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.bulletImg, bX - 100, bY, bSize, bSize);
-      pop();
-    }
+  }
+  else {
+    push();
+    noFill();
+    stroke(225, 0, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX - 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.bulletImg, bX - 100, bY, bSize, bSize);
+    pop();
+  }
 
   // Show Option 2 - Boomerang
   if (mouseX > bX - 50 && mouseX < bX  + 150 && mouseY > bY - 50 && mouseY < bY + 50) {
-      push();
-      noFill();
-      stroke(255, 255, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX + 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-      pop();
-      if (mouseIsPressed) {
-        states.attack = bulletList[1];
-        fill(255, 0, 0);
-        textSize(30);
-        text("BOOMERANG SELECTED!", width/2, height/2 + 180);
-      }
+    push();
+    noFill();
+    stroke(255, 255, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX + 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+    pop();
+    if (mouseIsPressed) {
+      states.attack = bulletList[1];
+      fill(255, 0, 0);
+      textSize(30);
+      text("BOOMERANG SELECTED!", width/2, height/2 + 180);
     }
-    else {
-      push();
-      noFill();
-      stroke(225, 0, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX + 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-      pop();
-    }
+  }
+  else {
+    push();
+    noFill();
+    stroke(225, 0, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX + 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+    pop();
+  }
 }
 
 // Apply the value of bulletList and make new bullet
