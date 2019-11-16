@@ -5,12 +5,12 @@
 
 // Grid Based Assignment:
 // Title Map - Random
+// Shop - Hero and items
 // Inventory - Pick and Drop
+
 // Resource - coins - potion
 // Health bar - player, enemy
 // Enemy Shoot Bullet to Player
-// Shop - Hero and items
-// Map if possible
 
 let player;
 let images;
@@ -329,10 +329,10 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
 // Apply the value of bulletList and make new bullet
 function bulletOptions() {
   if (states.attack === bulletList[0]) {
-    bullets.push(new Fire(player.playerX + 50, player.playerY + 50));  
+    bullets.push(new Fire(player.playerX, player.playerY));  
   }
   else {
-    bullets.push(new Boomerang(player.playerX + 50, player.playerY + 50));  
+    bullets.push(new Boomerang(player.playerX, player.playerY));  
   }
 }
 
