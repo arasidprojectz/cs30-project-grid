@@ -12,18 +12,13 @@
 // Health bar - player, enemy
 // Enemy Shoot Bullet to Player
 
-let player;
-let images;
-let sounds;
-let gameSetup;
-let setScore;
-let setTime;
-let setBoolean;
-let states;
-let bulletList;
-let enemy = [];
-let bullets = [];
-let coins = [];
+let images, sounds;
+let gameSetup, setScore, setTime, setBoolean;
+let states, bulletList;
+let tiles, tilesHigh, tilesWide, tileWidth, tileHeight;
+let levelToLoad, lines;
+let player, enemy = [], bullets = [], coins = [];
+
 
 function preload() {
   // Images which are pre-loaded
@@ -58,7 +53,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-  
+  // Grid Values
+
+
   // Make an array of bullets
   bulletList = new Array();
   bulletList[0] = "fireBall";
@@ -139,6 +136,63 @@ function draw() {
   } 
 }
 
+function tileMap() {
+  tilesHigh = lines.length;
+  tilesWide = lines[0].length;
+  
+  tileWidth = width / tilesWide;
+  tileHeight = height / tilesHigh;
+  
+  tiles = createEmpty2dArray(tilesWide, tilesHigh);
+  
+  //put values into 2d array of characters
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      let tileType = lines[y][x];
+      tiles[x][y] = tileType;
+    }
+  }
+}
+
+function display() {
+image(levelBackground, 0, 0, width, height);
+for (let y = 0; y < tilesHigh; y++) {
+  for (let x = 0; x < tilesWide; x++) {
+    showTile(tiles[x][y], x, y);
+  }
+}
+}
+
+function showTile(location, x, y) {
+if (location === "G") {
+  image(grass, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+}
+else if (location === "P") {
+  image(ground, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+}
+else if (location === "W") {
+  image(water, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+}
+else if (location === "S") {
+  image(stone, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+}
+else {
+  image(empty, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+}
+}
+
+function createEmpty2dArray(cols, rows) {
+let randomGrid = [];
+for (let x = 0; x < cols; x++) {
+  randomGrid.push([]);
+  for (let y = 0; y < rows; y++) {
+    randomGrid[x].push(0);
+  }
+}
+return randomGrid;
+}
+
+
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
   noCursor();
@@ -204,6 +258,7 @@ function gameRun() { // Runs the game
   checkCollided();
   playerHealth();
   drawUpdate();
+  display();
 }
 
 function gameStatus() { // If game over, reset everything
