@@ -6,17 +6,13 @@
 // Grid Based Assignment:
 // Title Map - Random
 // Shop - Hero and items
-// Inventory - Pick and Drop
-
 // Resource - coins - potion
-// Health bar - player, enemy
-// Enemy Shoot Bullet to Player
+
 
 let images, sounds;
 let gameSetup, setScore, setTime, setBoolean;
 let states, bulletList;
-let tiles, tilesHigh, tilesWide, tileWidth, tileHeight;
-let levelToLoad, lines;
+let tiles, tilesHigh, tilesWide, tileWidth, tileHeight, lines;
 let player, enemy = [], bullets = [], coins = [];
 
 
@@ -37,6 +33,11 @@ function preload() {
     boomerangImg: loadImage("assets/images/items/boomerang.png"),
     enemyImg: loadImage("assets/images/enemy/enemy.png"),
     coinImg: loadImage("assets/images/coin/coin.png"),
+    grassImg: loadImage("assets/images/tiles/grass.png"),
+    groundImg: loadImage("assets/images/tiles/ground.png"),
+    stoneImg: loadImage("assets/images/tiles/stone.png"),
+    waterImg: loadImage("assets/images/tiles/water.png"),
+    lines: loadStrings("assets/tiles/tile.txt")
   }; 
 
   // Sounds which are pre-loaded
@@ -45,7 +46,7 @@ function preload() {
     bgSound: loadSound("assets/sounds/background_music.mp3"),
     coinSound: loadSound("assets/sounds/collet_coin.mp3"),
     shootSound: loadSound("assets/sounds/shoot_bullet.mp3"),
-    gameOverSound: loadSound("assets/sounds/game_over.mp3"),
+    gameOverSound: loadSound("assets/sounds/game_over.mp3")
   };
 }
 
@@ -53,8 +54,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-  // Grid Values
-
 
   // Make an array of bullets
   bulletList = new Array();
@@ -69,20 +68,20 @@ function setup() {
     buttonX: width/2, 
     buttonY: height/2,
     buttonW: 400,
-    buttonH: 200,
+    buttonH: 200
   };
 
   // State Values
   states = {
     game: "toStart",
-    attack: " ",
+    attack: " "
   };
 
   // Score Values
   setScore = { 
     playerHP: 10,
     coinScore: 0,
-    killScore: 0,
+    killScore: 0
   };
 
   // Time Values
@@ -98,98 +97,95 @@ function setup() {
   // Booleans Values
   setBoolean = {
     bulletInteract: false,
-    bulletIsCollide: false,
+    bulletIsCollide: false
   };
 }
 
 
 function draw() {
-  imageMode(CORNER);
-  if (states.game === "toStart") {
-    background(images.introBG);
-    makeButton();
-    displayTitles();
-    displayCursor();
-  }
+  // imageMode(CORNER);
+  // if (states.game === "toStart") {
+  //   background(images.introBG);
+  //   makeButton();
+  //   displayTitles();
+  //   displayCursor();
+  // }
   
-  if (states.game === "guide") {
-    background(images.gameBG);
-    gameGuide();
-  }
+  // if (states.game === "guide") {
+  //   background(images.gameBG);
+  //   gameGuide();
+  // }
 
-  if (states.game === "bulletList") {
-    background(images.gameBG);
-    makeBulletList();
-    displayOptions();
-    displayCursor();
-  }
+  // if (states.game === "bulletList") {
+  //   background(images.gameBG);
+  //   makeBulletList();
+  //   displayOptions();
+  //   displayCursor();
+  // }
   
-  if (states.game === "runGame") {
-    background(images.gameBG);
-    gameRun();
-    displayGameCursor();
-  }
+  // if (states.game === "runGame") {
+  //   background(images.gameBG);
+  //   gameRun();
+  //   displayGameCursor();
+  // }
 
-  if (states.game === "gameOver") {
-    background(images.gameBG);
-    gameStatus();
-  } 
+  // if (states.game === "gameOver") {
+  //   background(images.gameBG);
+  //   gameStatus();
+  // } 
+  display();
 }
 
 function tileMap() {
-  tilesHigh = lines.length;
-  tilesWide = lines[0].length;
+  tilesHigh = images.lines.length;
+  tilesWide = images.lines[0].length;
   
   tileWidth = width / tilesWide;
   tileHeight = height / tilesHigh;
   
-  tiles = createEmpty2dArray(tilesWide, tilesHigh);
+  tiles = create2dArray(tilesWide, tilesHigh);
   
   //put values into 2d array of characters
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      let tileType = lines[y][x];
+      let tileType = images.lines[y][x];
       tiles[x][y] = tileType;
     }
   }
 }
 
 function display() {
-image(levelBackground, 0, 0, width, height);
-for (let y = 0; y < tilesHigh; y++) {
-  for (let x = 0; x < tilesWide; x++) {
-    showTile(tiles[x][y], x, y);
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      showTile(tiles[x][y], x, y);
+    }
   }
-}
 }
 
 function showTile(location, x, y) {
-if (location === "G") {
-  image(grass, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-}
-else if (location === "P") {
-  image(ground, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-}
-else if (location === "W") {
-  image(water, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-}
-else if (location === "S") {
-  image(stone, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-}
-else {
-  image(empty, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-}
-}
-
-function createEmpty2dArray(cols, rows) {
-let randomGrid = [];
-for (let x = 0; x < cols; x++) {
-  randomGrid.push([]);
-  for (let y = 0; y < rows; y++) {
-    randomGrid[x].push(0);
+  if (location === "l") {
+    image(images.groundImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+  }
+  else if (location === "w") {
+    image(images.waterImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+  }
+  else if (location === "b") {
+    image(images.stoneImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+  }
+  else {
+    image(images.grassImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
   }
 }
-return randomGrid;
+
+function create2dArray(cols, rows) {
+  let randomGrid = [];
+  for (let x = 0; x < cols; x++) {
+    randomGrid.push([]);
+    for (let y = 0; y < rows; y++) {
+      randomGrid[x].push(0);
+    }
+  }
+  return randomGrid;
 }
 
 
@@ -258,7 +254,7 @@ function gameRun() { // Runs the game
   checkCollided();
   playerHealth();
   drawUpdate();
-  display();
+  // display();
 }
 
 function gameStatus() { // If game over, reset everything
