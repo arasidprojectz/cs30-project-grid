@@ -9,11 +9,10 @@
 // Resource - coins - potion
 
 
-let images, sounds;
+let images, sounds, strings;
 let gameSetup, setScore, setTime, setBoolean;
-let states, bulletList;
-let tiles, tilesHigh, tilesWide, tileWidth, tileHeight, lines;
-let player, enemy = [], bullets = [], coins = [];
+let states, bulletList, grid;
+let player, enemy = [], bullets = [], coins = [], tiles = [];
 
 function preload() {
   // Images which are pre-loaded
@@ -32,7 +31,7 @@ function preload() {
     boomerangImg: loadImage("assets/images/items/boomerang.png"),
     enemyImg: loadImage("assets/images/enemy/enemy.png"),
     coinImg: loadImage("assets/images/coin/coin.png"),
-    // grassImg: loadImage("assets/images/tiles/grass.png"),
+    grassImg: loadImage("assets/images/tiles/grass.png"),
     // groundImg: loadImage("assets/images/tiles/ground.png"),
     // stoneImg: loadImage("assets/images/tiles/stone.png"),
     // waterImg: loadImage("assets/images/tiles/water.png"),
@@ -46,12 +45,24 @@ function preload() {
     shootSound: loadSound("assets/sounds/shoot_bullet.mp3"),
     gameOverSound: loadSound("assets/sounds/game_over.mp3")
   };
+
+  // Strings which are pre-loaded 
+  strings = {
+    loadTile = loadStrings("assets/grid/forest-layout.txt"),
+  };
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
+  // Grid Values
+  grid = {
+    cols: lines.length,
+    rows: lines[0].length,
+    cellW: width / rows,
+    cellH: height / cols
+  };
 
   // Button and Cursor Values
   gameSetup = {
@@ -97,41 +108,72 @@ function setup() {
     bulletInteract: false,
     bulletIsCollide: false
   };
-}
 
+  tiles = createEmpty2dArray(grid.rows, grid.cols);
+}
 
 function draw() {
   imageMode(CORNER);
-  if (states.game === "toStart") {
-    background(images.introBG);
-    makeButton();
-    displayTitles();
-    displayCursor();
-  }
+  // if (states.game === "toStart") {
+  //   background(images.introBG);
+  //   makeButton();
+  //   displayTitles();
+  //   displayCursor();
+  // }
   
-  if (states.game === "guide") {
-    background(images.gameBG);
-    gameGuide();
-  }
+  // if (states.game === "guide") {
+  //   background(images.gameBG);
+  //   gameGuide();
+  // }
 
-  if (states.game === "bulletList") {
-    background(images.gameBG);
-    makeBulletList();
-    displayOptions();
-    displayCursor();
-  }
+  // if (states.game === "bulletList") {
+  //   background(images.gameBG);
+  //   makeBulletList();
+  //   displayOptions();
+  //   displayCursor();
+  // }
   
-  if (states.game === "runGame") {
-    background(images.gameBG);
-    gameRun();
-    displayGameCursor();
-  }
+  // if (states.game === "runGame") {
+  //   background(images.gameBG);
+  //   gameRun();
+  //   displayGameCursor();
+  // }
 
-  if (states.game === "gameOver") {
-    background(images.gameBG);
-    gameStatus();
-  } 
+  // if (states.game === "gameOver") {
+  //   background(images.gameBG);
+  //   gameStatus();
+  // } 
+  displayTile();
 }
+
+// Tilemap
+function displayTile() {
+  for (let i = 0; i < grid.cols.length; i++) {
+    for (let j = 0; j < grid.rows.length; j++) {
+      let tileType = strings.loadTile[y][x];
+      tile[x][y] = tileType;
+      showTile(tile[x][y], i, j);
+    }
+  }
+}
+
+function showTile(location, x, y) {
+  if (location === ".") {
+    image(images.grassImg, x * grid.cellW, y * grid.cellH, grid.cellW, grid.cellH);
+  }
+}
+
+function createEmpty2dArray(theCols, theRows) {
+  let theGrid = [];
+  for (let i = 0; i < theCols; i++) {
+    theGrid.push([]);
+    for (let j = 0; j < theRows; j++) {
+      theGrid[i].push(0);
+    }
+  }
+  return theGrid;
+}
+
 
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
