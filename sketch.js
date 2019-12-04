@@ -1,7 +1,8 @@
-// CS30 Project - Grid Based Assignment
+// CS30 Project - State Variable
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
+<<<<<<< HEAD
 
 // Grid Based Assignment:
 // Title Map - Random
@@ -15,6 +16,22 @@ let states, bulletList;
 let tiles, tilesHigh, tilesWide, tileWidth, tileHeight, lines;
 let player, enemy = [], bullets = [], coins = [];
 
+=======
+//  - Basic AI for Enemy - Follow Player
+
+let player;
+let images;
+let sounds;
+let gameSetup;
+let setScore;
+let setTime;
+let setBoolean;
+let states;
+let bulletList;
+let enemy = [];
+let bullets = [];
+let coins = [];
+>>>>>>> parent of 84ced56... Grid Assignment Ideas
 
 function preload() {
   // Images which are pre-loaded
@@ -54,12 +71,16 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
+<<<<<<< HEAD
 
   // Make an array of bullets
   bulletList = new Array();
   bulletList[0] = "fireBall";
   bulletList[1] = "boomerang";
 
+=======
+  
+>>>>>>> parent of 84ced56... Grid Assignment Ideas
   // Button and Cursor Values
   gameSetup = {
     cursorX: width/2, 
@@ -76,6 +97,11 @@ function setup() {
     game: "toStart",
     attack: " "
   };
+
+  // Make an array of bullets
+  bulletList = new Array();
+  bulletList[0] = "fireBall";
+  bulletList[1] = "boomerang";
 
   // Score Values
   setScore = { 
@@ -318,63 +344,63 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
 
   // Show Option 1 - fire
   if (mouseX > bX - 150 && mouseX < bX - 50 && mouseY > bY - 50 && mouseY < bY + 50) {
-    push();
-    noFill();
-    stroke(255, 255, 0);
-    strokeWeight(6);
-    rectMode(CENTER);
-    rect(bX - 100, bY, rectSize, rectSize);
-    imageMode(CENTER);
-    image(images.bulletImg, bX - 100, bY, bSize, bSize);
-    pop();
-    if (mouseIsPressed) {
-      states.attack = bulletList[0];
-      fill(255, 0, 0);
-      textSize(30);
-      text("FIRE SELECTED!", width/2, height/2 + 180);
+      push();
+      noFill();
+      stroke(255, 255, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX - 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.bulletImg, bX - 100, bY, bSize, bSize);
+      pop();
+      if (mouseIsPressed) {
+        states.attack = bulletList[0];
+        fill(255, 0, 0);
+        textSize(30);
+        text("FIRE SELECTED!", width/2, height/2 + 180);
+      }
     }
-  }
-  else {
-    push();
-    noFill();
-    stroke(225, 0, 0);
-    strokeWeight(6);
-    rectMode(CENTER);
-    rect(bX - 100, bY, rectSize, rectSize);
-    imageMode(CENTER);
-    image(images.bulletImg, bX - 100, bY, bSize, bSize);
-    pop();
-  }
+    else {
+      push();
+      noFill();
+      stroke(225, 0, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX - 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.bulletImg, bX - 100, bY, bSize, bSize);
+      pop();
+    }
 
   // Show Option 2 - Boomerang
   if (mouseX > bX - 50 && mouseX < bX  + 150 && mouseY > bY - 50 && mouseY < bY + 50) {
-    push();
-    noFill();
-    stroke(255, 255, 0);
-    strokeWeight(6);
-    rectMode(CENTER);
-    rect(bX + 100, bY, rectSize, rectSize);
-    imageMode(CENTER);
-    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-    pop();
-    if (mouseIsPressed) {
-      states.attack = bulletList[1];
-      fill(255, 0, 0);
-      textSize(30);
-      text("BOOMERANG SELECTED!", width/2, height/2 + 180);
+      push();
+      noFill();
+      stroke(255, 255, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX + 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+      pop();
+      if (mouseIsPressed) {
+        states.attack = bulletList[1];
+        fill(255, 0, 0);
+        textSize(30);
+        text("BOOMERANG SELECTED!", width/2, height/2 + 180);
+      }
     }
-  }
-  else {
-    push();
-    noFill();
-    stroke(225, 0, 0);
-    strokeWeight(6);
-    rectMode(CENTER);
-    rect(bX + 100, bY, rectSize, rectSize);
-    imageMode(CENTER);
-    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-    pop();
-  }
+    else {
+      push();
+      noFill();
+      stroke(225, 0, 0);
+      strokeWeight(6);
+      rectMode(CENTER);
+      rect(bX + 100, bY, rectSize, rectSize);
+      imageMode(CENTER);
+      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+      pop();
+    }
 }
 
 // Apply the value of bulletList and make new bullet
