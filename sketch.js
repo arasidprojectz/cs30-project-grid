@@ -2,7 +2,6 @@
 // Al Rasid Mamun
 // Oct 10, 2019
 // Extra for Experts:
-<<<<<<< HEAD
 
 // Grid Based Assignment:
 // Title Map - Random
@@ -15,23 +14,6 @@ let gameSetup, setScore, setTime, setBoolean;
 let states, bulletList;
 let tiles, tilesHigh, tilesWide, tileWidth, tileHeight, lines;
 let player, enemy = [], bullets = [], coins = [];
-
-=======
-//  - Basic AI for Enemy - Follow Player
-
-let player;
-let images;
-let sounds;
-let gameSetup;
-let setScore;
-let setTime;
-let setBoolean;
-let states;
-let bulletList;
-let enemy = [];
-let bullets = [];
-let coins = [];
->>>>>>> parent of 84ced56... Grid Assignment Ideas
 
 function preload() {
   // Images which are pre-loaded
@@ -50,11 +32,10 @@ function preload() {
     boomerangImg: loadImage("assets/images/items/boomerang.png"),
     enemyImg: loadImage("assets/images/enemy/enemy.png"),
     coinImg: loadImage("assets/images/coin/coin.png"),
-    grassImg: loadImage("assets/images/tiles/grass.png"),
-    groundImg: loadImage("assets/images/tiles/ground.png"),
-    stoneImg: loadImage("assets/images/tiles/stone.png"),
-    waterImg: loadImage("assets/images/tiles/water.png"),
-    lines: loadStrings("assets/tiles/tile.txt")
+    // grassImg: loadImage("assets/images/tiles/grass.png"),
+    // groundImg: loadImage("assets/images/tiles/ground.png"),
+    // stoneImg: loadImage("assets/images/tiles/stone.png"),
+    // waterImg: loadImage("assets/images/tiles/water.png"),
   }; 
 
   // Sounds which are pre-loaded
@@ -71,16 +52,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-<<<<<<< HEAD
 
-  // Make an array of bullets
-  bulletList = new Array();
-  bulletList[0] = "fireBall";
-  bulletList[1] = "boomerang";
-
-=======
-  
->>>>>>> parent of 84ced56... Grid Assignment Ideas
   // Button and Cursor Values
   gameSetup = {
     cursorX: width/2, 
@@ -129,91 +101,37 @@ function setup() {
 
 
 function draw() {
-  // imageMode(CORNER);
-  // if (states.game === "toStart") {
-  //   background(images.introBG);
-  //   makeButton();
-  //   displayTitles();
-  //   displayCursor();
-  // }
+  imageMode(CORNER);
+  if (states.game === "toStart") {
+    background(images.introBG);
+    makeButton();
+    displayTitles();
+    displayCursor();
+  }
   
-  // if (states.game === "guide") {
-  //   background(images.gameBG);
-  //   gameGuide();
-  // }
+  if (states.game === "guide") {
+    background(images.gameBG);
+    gameGuide();
+  }
 
-  // if (states.game === "bulletList") {
-  //   background(images.gameBG);
-  //   makeBulletList();
-  //   displayOptions();
-  //   displayCursor();
-  // }
+  if (states.game === "bulletList") {
+    background(images.gameBG);
+    makeBulletList();
+    displayOptions();
+    displayCursor();
+  }
   
-  // if (states.game === "runGame") {
-  //   background(images.gameBG);
-  //   gameRun();
-  //   displayGameCursor();
-  // }
+  if (states.game === "runGame") {
+    background(images.gameBG);
+    gameRun();
+    displayGameCursor();
+  }
 
-  // if (states.game === "gameOver") {
-  //   background(images.gameBG);
-  //   gameStatus();
-  // } 
-  display();
+  if (states.game === "gameOver") {
+    background(images.gameBG);
+    gameStatus();
+  } 
 }
-
-function tileMap() {
-  tilesHigh = images.lines.length;
-  tilesWide = images.lines[0].length;
-  
-  tileWidth = width / tilesWide;
-  tileHeight = height / tilesHigh;
-  
-  tiles = create2dArray(tilesWide, tilesHigh);
-  
-  //put values into 2d array of characters
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      let tileType = images.lines[y][x];
-      tiles[x][y] = tileType;
-    }
-  }
-}
-
-function display() {
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      showTile(tiles[x][y], x, y);
-    }
-  }
-}
-
-function showTile(location, x, y) {
-  if (location === "l") {
-    image(images.groundImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "w") {
-    image(images.waterImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "b") {
-    image(images.stoneImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else {
-    image(images.grassImg, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-}
-
-function create2dArray(cols, rows) {
-  let randomGrid = [];
-  for (let x = 0; x < cols; x++) {
-    randomGrid.push([]);
-    for (let y = 0; y < rows; y++) {
-      randomGrid[x].push(0);
-    }
-  }
-  return randomGrid;
-}
-
 
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
@@ -280,7 +198,6 @@ function gameRun() { // Runs the game
   checkCollided();
   playerHealth();
   drawUpdate();
-  // display();
 }
 
 function gameStatus() { // If game over, reset everything
@@ -344,63 +261,63 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
 
   // Show Option 1 - fire
   if (mouseX > bX - 150 && mouseX < bX - 50 && mouseY > bY - 50 && mouseY < bY + 50) {
-      push();
-      noFill();
-      stroke(255, 255, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX - 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.bulletImg, bX - 100, bY, bSize, bSize);
-      pop();
-      if (mouseIsPressed) {
-        states.attack = bulletList[0];
-        fill(255, 0, 0);
-        textSize(30);
-        text("FIRE SELECTED!", width/2, height/2 + 180);
-      }
+    push();
+    noFill();
+    stroke(255, 255, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX - 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.bulletImg, bX - 100, bY, bSize, bSize);
+    pop();
+    if (mouseIsPressed) {
+      states.attack = bulletList[0];
+      fill(255, 0, 0);
+      textSize(30);
+      text("FIRE SELECTED!", width/2, height/2 + 180);
     }
-    else {
-      push();
-      noFill();
-      stroke(225, 0, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX - 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.bulletImg, bX - 100, bY, bSize, bSize);
-      pop();
-    }
+  }
+  else {
+    push();
+    noFill();
+    stroke(225, 0, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX - 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.bulletImg, bX - 100, bY, bSize, bSize);
+    pop();
+  }
 
   // Show Option 2 - Boomerang
   if (mouseX > bX - 50 && mouseX < bX  + 150 && mouseY > bY - 50 && mouseY < bY + 50) {
-      push();
-      noFill();
-      stroke(255, 255, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX + 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-      pop();
-      if (mouseIsPressed) {
-        states.attack = bulletList[1];
-        fill(255, 0, 0);
-        textSize(30);
-        text("BOOMERANG SELECTED!", width/2, height/2 + 180);
-      }
+    push();
+    noFill();
+    stroke(255, 255, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX + 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+    pop();
+    if (mouseIsPressed) {
+      states.attack = bulletList[1];
+      fill(255, 0, 0);
+      textSize(30);
+      text("BOOMERANG SELECTED!", width/2, height/2 + 180);
     }
-    else {
-      push();
-      noFill();
-      stroke(225, 0, 0);
-      strokeWeight(6);
-      rectMode(CENTER);
-      rect(bX + 100, bY, rectSize, rectSize);
-      imageMode(CENTER);
-      image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
-      pop();
-    }
+  }
+  else {
+    push();
+    noFill();
+    stroke(225, 0, 0);
+    strokeWeight(6);
+    rectMode(CENTER);
+    rect(bX + 100, bY, rectSize, rectSize);
+    imageMode(CENTER);
+    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+    pop();
+  }
 }
 
 // Apply the value of bulletList and make new bullet
