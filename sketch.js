@@ -13,7 +13,7 @@ let images, sounds, strings;
 let gameSetup, setScore, setTime, setBoolean;
 let states, bulletList, grid, tiles;
 let player, enemy = [], bullets = [], coins = [];
-const WIDTH = 900; const HEIGHT = 600;
+const WIDTH = 900; const HEIGHT = 800;
 
 function preload() {
   // Images which are pre-loaded
@@ -113,36 +113,36 @@ function setup() {
 }
 
 function draw() {
-  imageMode(CORNER);
-  if (states.game === "toStart") {
-    background(images.introBG);
-    makeButton();
-    displayTitles();
-    displayCursor();
-  }
+  // imageMode(CORNER);
+  // if (states.game === "toStart") {
+  //   background(images.introBG);
+  //   makeButton();
+  //   displayTitles();
+  //   displayCursor();
+  // }
   
-  if (states.game === "guide") {
-    background(images.gameBG);
-    gameGuide();
-  }
+  // if (states.game === "guide") {
+  //   background(images.gameBG);
+  //   gameGuide();
+  // }
 
-  if (states.game === "bulletList") {
-    background(images.gameBG);
-    makeBulletList();
-    displayOptions();
-    displayCursor();
-  }
+  // if (states.game === "bulletList") {
+  //   background(images.gameBG);
+  //   makeBulletList();
+  //   displayOptions();
+  //   displayCursor();
+  // }
   
-  if (states.game === "runGame") {
+  // if (states.game === "runGame") {
     display();
     gameRun();
     displayGameCursor();
-  }
+  // }
 
-  if (states.game === "gameOver") {
-    background(images.gameBG);
-    gameStatus();
-  } 
+  // if (states.game === "gameOver") {
+  //   background(images.gameBG);
+  //   gameStatus();
+  // } 
 }
 
 // Tilemap
@@ -170,6 +170,7 @@ function showTile(location, x, y) {
   }
   else if (location === "W") {
     image(images.waterImg, x * cellW, y * cellH, cellW, cellH);
+
   }
 }
 
@@ -183,6 +184,8 @@ function createEmpty2dArray(theCols, theRows) {
   }
   return theGrid;
 }
+
+
 
 
 

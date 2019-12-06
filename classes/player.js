@@ -4,8 +4,8 @@ class Player {
     this.playerY = y; 
     this.playerDX = 4;
     this.playerDY = 4;
-    this.playerWidth = 100; 
-    this.playerHeight = 150; 
+    this.playerWidth = 50; 
+    this.playerHeight = 80; 
     this.W = 87;
     this.A = 65;
     this.S = 83;
