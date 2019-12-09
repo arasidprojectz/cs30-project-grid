@@ -2,10 +2,10 @@ class Player {
   constructor(x, y) {
     this.playerX = x; 
     this.playerY = y; 
-    this.playerDX = 4;
-    this.playerDY = 4;
-    this.playerWidth = 50; 
-    this.playerHeight = 80; 
+    this.playerDX = 2;
+    this.playerDY = 2;
+    this.playerWidth = 30; 
+    this.playerHeight = 45; 
     this.W = 87;
     this.A = 65;
     this.S = 83;
@@ -40,5 +40,4 @@ class Player {
       this.playerY += this.playerDY;
     }
   }
-
 }

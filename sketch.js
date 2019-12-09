@@ -113,36 +113,36 @@ function setup() {
 }
 
 function draw() {
-  // imageMode(CORNER);
-  // if (states.game === "toStart") {
-  //   background(images.introBG);
-  //   makeButton();
-  //   displayTitles();
-  //   displayCursor();
-  // }
+  imageMode(CORNER);
+  if (states.game === "toStart") {
+    background(images.introBG);
+    makeButton();
+    displayTitles();
+    displayCursor();
+  }
   
-  // if (states.game === "guide") {
-  //   background(images.gameBG);
-  //   gameGuide();
-  // }
+  if (states.game === "guide") {
+    background(images.gameBG);
+    gameGuide();
+  }
 
-  // if (states.game === "bulletList") {
-  //   background(images.gameBG);
-  //   makeBulletList();
-  //   displayOptions();
-  //   displayCursor();
-  // }
+  if (states.game === "bulletList") {
+    background(images.gameBG);
+    makeBulletList();
+    displayOptions();
+    displayCursor();
+  }
   
-  // if (states.game === "runGame") {
+  if (states.game === "runGame") {
     display();
     gameRun();
     displayGameCursor();
-  // }
+  }
 
-  // if (states.game === "gameOver") {
-  //   background(images.gameBG);
-  //   gameStatus();
-  // } 
+  if (states.game === "gameOver") {
+    background(images.gameBG);
+    gameStatus();
+  } 
 }
 
 // Tilemap
@@ -170,7 +170,6 @@ function showTile(location, x, y) {
   }
   else if (location === "W") {
     image(images.waterImg, x * cellW, y * cellH, cellW, cellH);
-
   }
 }
 
@@ -185,10 +184,22 @@ function createEmpty2dArray(theCols, theRows) {
   return theGrid;
 }
 
-
-
-
-
+function tileCollision(location, x, y) {
+  let cellW = width / grid.rows;
+  let cellH = height / grid.cols;
+  for (let x = 0; x < grid.cols.length; x++) {
+    for (let y = 0; y < grid.rows.length; y++) {
+      let stoneTile = image(images.grassImg, x * cellW, y * cellH, cellW, cellH);
+      if (location === stoneTile) {
+        if (player.palyerX < tile[x][0] || player.palyerX > tile[x].length-1 || player.playerY < tile[y][0] || player.playeY > tile[y].length-1 ) {
+          player.playerDX = 0;
+          player.playerDY = 0;
+        }
+      } 
+    }
+  }
+}
+ 
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
   noCursor();
