@@ -106,7 +106,8 @@ function setup() {
   // Booleans Values
   setBoolean = {
     bulletInteract: false,
-    bulletIsCollide: false
+    bulletIsCollide: false,
+    collideTile: false
   };
 
   tiles = createEmpty2dArray(grid.rows, grid.cols);
@@ -125,7 +126,7 @@ function draw() {
     background(images.gameBG);
     gameGuide();
   }
-
+  
   if (states.game === "bulletList") {
     background(images.gameBG);
     makeBulletList();
@@ -134,6 +135,7 @@ function draw() {
   }
   
   if (states.game === "runGame") {
+    tileCollision();
     display();
     gameRun();
     displayGameCursor();
@@ -147,11 +149,11 @@ function draw() {
 
 // Tilemap
 function display() { //put values into 2d array of characters
-  for (let y = 0; y < grid.cols; y++) {
-    for (let x = 0; x < grid.rows; x++) {
-      let tileType = strings.tileLayout[y][x];
-      tiles[x][y] = tileType;
-      showTile(tiles[x][y], x, y);
+  for (let i = 0; i < grid.cols; i++) {
+    for (let j = 0; j < grid.rows; j++) {
+      let tileType = strings.tileLayout[i][j];
+      tiles[j][i] = tileType;
+      showTile(tiles[j][i], j, i);
     }
   }
 }
@@ -175,28 +177,28 @@ function showTile(location, x, y) {
 
 function createEmpty2dArray(theCols, theRows) {
   let theGrid = [];
-  for (let x = 0; x < theCols; x++) {
+  for (let i = 0; i < theCols; i++) {
     theGrid.push([]);
-    for (let y = 0; y < theRows; y++) {
-      theGrid[x].push(0);
+    for (let j = 0; j < theRows; j++) {
+      theGrid[i].push(0);
     }
   }
   return theGrid;
 }
 
-function tileCollision(location, x, y) {
-  let cellW = width / grid.rows;
-  let cellH = height / grid.cols;
-  for (let x = 0; x < grid.cols.length; x++) {
-    for (let y = 0; y < grid.rows.length; y++) {
-      let stoneTile = image(images.grassImg, x * cellW, y * cellH, cellW, cellH);
-      if (location === stoneTile) {
-        if (player.palyerX < tile[x][0] || player.palyerX > tile[x].length-1 || player.playerY < tile[y][0] || player.playeY > tile[y].length-1 ) {
-          player.playerDX = 0;
-          player.playerDY = 0;
+function tileCollision() {
+  for (let i = 0; i < grid.cols; i++) {
+    for (let j = 0; j < grid.rows; j++) {
+      let mapCoord = tiles[j][i];
+      let playerCoorX = floor(player.playerX / grid.rows);
+      let playerCoorY = floor(player.playerY / grid.cols);
+      if (mapCoord === "W") {
+        if (playerCoorX === mapCoord[i] && playerCoorY === mapCoord[i]) {
+          console.log("collide");
+          
         }
-      } 
-    }
+      }
+    } 
   }
 }
  
