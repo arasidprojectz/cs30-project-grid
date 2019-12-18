@@ -3,17 +3,11 @@
 // Oct 10, 2019
 // Extra for Experts:
 
-// Grid Based Assignment:
-// Title Map - Random
-// Shop - Hero and items
-// Resource - coins - potion
-
-
 let images, sounds, strings;
 let gameSetup, setScore, setTime, setBoolean;
-let states, bulletList, grid, tiles;
-let player, enemy = [], bullets = [], coins = [];
-const WIDTH = 900; const HEIGHT = 800;
+let states, bulletList;
+let player, enemy = [], bullets = [], coins = [], grid;
+const WIDTH = 1050; const HEIGHT = 825;
 
 function preload() {
   // Images which are pre-loaded
@@ -57,12 +51,7 @@ function setup() {
   createCanvas(WIDTH, HEIGHT);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
-
-  // Grid Values
-  grid = {
-    cols: strings.tileLayout.length,
-    rows: strings.tileLayout[0].length
-  };
+  grid = new Grid();
 
   // Button and Cursor Values
   gameSetup = {
@@ -107,10 +96,7 @@ function setup() {
   setBoolean = {
     bulletInteract: false,
     bulletIsCollide: false,
-    collideTile: false
   };
-
-  tiles = createEmpty2dArray(grid.rows, grid.cols);
 }
 
 function draw() {
@@ -135,8 +121,6 @@ function draw() {
   }
   
   if (states.game === "runGame") {
-    tileCollision();
-    display();
     gameRun();
     displayGameCursor();
   }
@@ -147,60 +131,11 @@ function draw() {
   } 
 }
 
-// Tilemap
-function display() { //put values into 2d array of characters
-  for (let i = 0; i < grid.cols; i++) {
-    for (let j = 0; j < grid.rows; j++) {
-      let tileType = strings.tileLayout[i][j];
-      tiles[j][i] = tileType;
-      showTile(tiles[j][i], j, i);
-    }
-  }
+// Tile Map
+function makeGrid(){
+  grid.makeTileMap(grid.cols, grid.rows);
 }
 
-function showTile(location, x, y) {
-  let cellW = width / grid.rows;
-  let cellH = height / grid.cols;
-  if (location === ".") {
-    image(images.grassImg, x * cellW, y * cellH, cellW, cellH);
-  }
-  else if (location === "G") {
-    image(images.groundImg, x * cellW, y * cellH, cellW, cellH);
-  }
-  else if (location === "S") {
-    image(images.stoneImg, x * cellW, y * cellH, cellW, cellH);
-  }
-  else if (location === "W") {
-    image(images.waterImg, x * cellW, y * cellH, cellW, cellH);
-  }
-}
-
-function createEmpty2dArray(theCols, theRows) {
-  let theGrid = [];
-  for (let i = 0; i < theCols; i++) {
-    theGrid.push([]);
-    for (let j = 0; j < theRows; j++) {
-      theGrid[i].push(0);
-    }
-  }
-  return theGrid;
-}
-
-function tileCollision() {
-  for (let i = 0; i < grid.cols; i++) {
-    for (let j = 0; j < grid.rows; j++) {
-      let mapCoord = tiles[j][i];
-      let playerCoorX = floor(player.playerX / grid.rows);
-      let playerCoorY = floor(player.playerY / grid.cols);
-      if (mapCoord === "W") {
-        if (playerCoorX === mapCoord[i] && playerCoorY === mapCoord[i]) {
-          console.log("collide");
-          
-        }
-      }
-    } 
-  }
-}
  
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
@@ -257,16 +192,17 @@ function gameGuide() { // Show guide, pressed esc to exit
 }
 
 function gameRun() { // Runs the game
+  makeGrid();
   makePlayer();
-  // generateEnemy(); 
-  // generateCoins();
-  // enemyRespawnRandom();
-  // coinsRespawnRandom();
   checkBullets();
   removeBullet();
   checkCollided();
   playerHealth();
   drawUpdate();
+  // generateEnemy(); 
+  // generateCoins();
+  // enemyRespawnRandom();
+  // coinsRespawnRandom();
 }
 
 function gameStatus() { // If game over, reset everything
@@ -405,6 +341,7 @@ function makePlayer() {
   player.displayPlayer();
   player.movePlayer();
   player.angleOfBullets(mouseY, mouseX);
+  player.collideWithTile();
 }
 
 // If player health less than or equal to zero, game over
@@ -460,7 +397,7 @@ function enemyRespawnRandom() {
   for (let i=0; i<enemy.length; i++) {
     enemy[i].displayEnemy();
     enemy[i].updatePosition();
-    enemy[i].interactWithPlayer();
+    // enemy[i].interactWithPlayer();
   } 
 }
 
