@@ -73,13 +73,14 @@ class Player {
       let gridY = floor((this.playerY + this.playerHeight)/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
         this.isWalkable = true;
+        console.log(gridX, gridY);
       }
       else {
         this.isWalkable = false;
       }
     }
     else if (this.direction === "left") {
-      let gridX = floor((this.playerX - this.playerWidth)/grid.cellW);
+      let gridX = floor((this.playerX )/grid.cellW);
       let gridY = floor((this.playerY + this.playerHeight/2)/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
         this.isWalkable = true;
@@ -100,3 +101,4 @@ class Player {
     }
   }
 }
+a

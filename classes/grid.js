@@ -2,7 +2,7 @@ class Grid {
   constructor() {
     this.myMap = strings.tileLayout;
     this.cols = this.myMap.length;
-    this.rows = this.myMap[0].length;
+    this.rows = this.myMap[0].length-1;
     this.cellW = width/this.cols;
     this.cellH = height/this.rows;
   }

@@ -7,7 +7,7 @@ let images, sounds, strings;
 let gameSetup, setScore, setTime, setBoolean;
 let states, bulletList;
 let player, enemy = [], bullets = [], coins = [], grid;
-const WIDTH = 1050; const HEIGHT = 825;
+const WIDTH = 1050; const HEIGHT = 750;
 
 function preload() {
   // Images which are pre-loaded
