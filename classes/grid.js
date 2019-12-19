@@ -7,22 +7,19 @@ class Grid {
     this.cellH = height/this.rows;
   }
 
-  makeTileMap(theCols, theRows) {
-    for (let x = 0; x < theCols; x++) {
+  makeTileMap(theCols, theRows) { // Make the tiles size according to the cols and rows, and use value of strings 
+    for (let x = 0; x < theCols; x++) { 
       for (let y = 0; y < theRows; y++) {
-        stroke(0);
-        strokeWeight(2);
-        rect(x * this.cellW, y * this.cellH, this.cellW, this.cellH);
-        if (this.myMap[y][x] === "G") {
+        if (this.myMap[y][x] === "G") { // Ground Tile
           image(images.groundImg, x * this.cellW, y * this.cellH, this.cellW, this.cellH);
         }
-        else if (this.myMap[y][x] === "S") {
+        else if (this.myMap[y][x] === "S") { // Stone Tile
           image(images.stoneImg, x * this.cellW, y * this.cellH, this.cellW, this.cellH);
         }
-        else if (this.myMap[y][x] === "W") {
+        else if (this.myMap[y][x] === "W") { // Wayer Tile
           image(images.waterImg, x * this.cellW, y * this.cellH, this.cellW, this.cellH);
         }
-        else if (this.myMap[y][x] === ".") {
+        else if (this.myMap[y][x] === ".") { // Grass Tile
           image(images.grassImg, x * this.cellW, y * this.cellH, this.cellW, this.cellH);
         }
       }

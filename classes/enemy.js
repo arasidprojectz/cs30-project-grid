@@ -2,9 +2,7 @@ class Enemy {
   constructor(x, y) {
     this.enemyX = x;
     this.enemyY = y;
-    // this.enemyDX = random(3, 5); 
-    // this.enemyDY = random(3, 5);
-    this.enemySize = 50;
+    this.enemySize = 25;
     this.bulletDistance;
     this.playerInteract = false;
     this.playerIsCollide = false;
@@ -46,4 +44,11 @@ class Enemy {
       this.playerIsCollide = false;
     }
   }  
+
+   // Check the tile if the tile is walkable
+  collideWithTile() {
+    let gridX = floor((this.enemyX)/grid.cellW);
+    let gridY = floor(this.enemyY/grid.cellH); 
+    console.log(gridX, gridY);
+  }
 }

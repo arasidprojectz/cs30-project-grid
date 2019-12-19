@@ -57,7 +57,7 @@ function setup() {
   gameSetup = {
     cursorX: width/2, 
     cursorY: height/2, 
-    cursorSize: 40,
+    cursorSize: 20,
     buttonX: width/2, 
     buttonY: height/2,
     buttonW: 400,
@@ -199,9 +199,10 @@ function gameRun() { // Runs the game
   checkCollided();
   playerHealth();
   drawUpdate();
-  // generateEnemy(); 
+  enemyRespawnRandom();
+  generateEnemy(); 
+  removeEnemy();
   // generateCoins();
-  // enemyRespawnRandom();
   // coinsRespawnRandom();
 }
 
@@ -374,7 +375,7 @@ function mousePressed() {
   }
 }
 
-// If bullet length more than one, delete last bullet
+// Delete bullet if at edge of screen 
 function removeBullet() {
   for (let i = 0; i<bullets.length; i++) {
     if (bullets[i].bulletX < 0 || bullets[i].bulletX > width ||
@@ -397,8 +398,18 @@ function enemyRespawnRandom() {
   for (let i=0; i<enemy.length; i++) {
     enemy[i].displayEnemy();
     enemy[i].updatePosition();
-    // enemy[i].interactWithPlayer();
+    enemy[i].collideWithTile();
+    enemy[i].interactWithPlayer();
   } 
+}
+
+// Enemy collide with player, delete enemy
+function removeEnemy() {
+  for (let i=0; i<enemy.length; i++) {
+    if (enemy[i].playerInteract === true) {
+      enemy.splice(i,1);
+    }
+  }
 }
 
 // Check if bullet and enemy collide, if true, delete bullet and enemy that collided

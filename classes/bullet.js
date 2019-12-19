@@ -5,6 +5,7 @@ class Bullet {
     this.bulletDX = 0;
     this.bulletDY = 0;
     this.angle = 0;
+    this.isMove = false;
   }
 
   // Update x and y values with dx and dy
@@ -25,7 +26,7 @@ class Bullet {
 class Fire extends Bullet {
   constructor(pX, pY) {
     super(pX, pY);
-    this.radius = 15;
+    this.radius = 5;
   }
 
   // Show image
@@ -38,7 +39,7 @@ class Fire extends Bullet {
 class Boomerang extends Bullet {
   constructor(pX, pY) {
     super(pX, pY);
-    this.radius = 25;
+    this.radius = 10;
   }
 
   // Show image

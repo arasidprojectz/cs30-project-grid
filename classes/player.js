@@ -57,8 +57,9 @@ class Player {
     }
   }
 
-  collideWithTile() {
-    if (this.direction === "up") {
+  // Check the tile if the tile is walkable
+  collideWithTile() { 
+    if (this.direction === "up") { // Top tile colision
       let gridX = floor((this.playerX + this.playerWidth/2)/grid.cellW);
       let gridY = floor(this.playerY/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
@@ -68,18 +69,17 @@ class Player {
         this.isWalkable = false;
       }
     }
-    else if (this.direction === "down") {
+    else if (this.direction === "down") { // Down tile colision
       let gridX = floor((this.playerX + this.playerWidth/2)/grid.cellW);
       let gridY = floor((this.playerY + this.playerHeight)/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
         this.isWalkable = true;
-        console.log(gridX, gridY);
       }
       else {
         this.isWalkable = false;
       }
     }
-    else if (this.direction === "left") {
+    else if (this.direction === "left") { // Left tile colision
       let gridX = floor((this.playerX )/grid.cellW);
       let gridY = floor((this.playerY + this.playerHeight/2)/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
@@ -89,7 +89,7 @@ class Player {
         this.isWalkable = false;
       }
     }
-    else if (this.direction === "right") {
+    else if (this.direction === "right") { // Right tile colision
       let gridX = floor((this.playerX+this.playerWidth)/grid.cellW);
       let gridY = floor((this.playerY + this.playerHeight/2)/grid.cellH); 
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
