@@ -31,12 +31,16 @@ class Player {
   // Move using WASD && can not go off screen
   movePlayer() { 
     if (keyIsDown(this.D) && this.playerX < width - this.playerWidth) {
-      this.playerX += this.playerDX;
       this.direction = "right";
+      if (this.isWalkable === true) {
+        this.playerX += this.playerDX;
+      }
     } 
     else if (keyIsDown(this.A) && this.playerX > 0) {
-      this.playerX -= this.playerDX;
       this.direction = "left";
+      if (this.isWalkable === true) {
+        this.playerX -= this.playerDX;
+      }
     } 
     else if (keyIsDown(this.W) && this.playerY > 0) {
       this.direction = "up";
@@ -46,17 +50,17 @@ class Player {
       }
     } 
     else if (keyIsDown(this.S) && this.playerY < height - this.playerHeight) {
-      this.playerY += this.playerDY;
       this.direction = "down";
+      if (this.isWalkable === true) { 
+        this.playerY += this.playerDY;
+      }
     }
   }
 
   collideWithTile() {
     if (this.direction === "up") {
-      let gridX = floor((this.playerX + this.playerWidth / 2)/grid.cellW);
+      let gridX = floor((this.playerX + this.playerWidth/2)/grid.cellW);
       let gridY = floor(this.playerY/grid.cellH); 
-      console.log(gridX);
-      console.log(gridY);
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
         this.isWalkable = true;
       }
@@ -65,10 +69,8 @@ class Player {
       }
     }
     else if (this.direction === "down") {
-      let gridX = floor((this.playerX + this.playerWidth / 2)/grid.cellW);
+      let gridX = floor((this.playerX + this.playerWidth/2)/grid.cellW);
       let gridY = floor((this.playerY + this.playerHeight)/grid.cellH); 
-      console.log(gridX);
-      console.log(gridY);
       if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
         this.isWalkable = true;
       }
@@ -76,11 +78,25 @@ class Player {
         this.isWalkable = false;
       }
     }
-    // else if (this.direction === "left") {
-
-    // }
-    // else if (this.direction === "right") {
-
-    // }
+    else if (this.direction === "left") {
+      let gridX = floor((this.playerX - this.playerWidth)/grid.cellW);
+      let gridY = floor((this.playerY + this.playerHeight/2)/grid.cellH); 
+      if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
+        this.isWalkable = true;
+      }
+      else {
+        this.isWalkable = false;
+      }
+    }
+    else if (this.direction === "right") {
+      let gridX = floor((this.playerX+this.playerWidth)/grid.cellW);
+      let gridY = floor((this.playerY + this.playerHeight/2)/grid.cellH); 
+      if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
+        this.isWalkable = true;
+      }
+      else {
+        this.isWalkable = false;
+      }
+    }
   }
 }
