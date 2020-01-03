@@ -57,7 +57,7 @@ function setup() {
   gameSetup = {
     cursorX: width/2, 
     cursorY: height/2, 
-    cursorSize: 20,
+    cursorSize: 25,
     buttonX: width/2, 
     buttonY: height/2,
     buttonW: 400,
@@ -194,16 +194,12 @@ function gameGuide() { // Show guide, pressed esc to exit
 function gameRun() { // Runs the game
   makeGrid();
   makePlayer();
-  checkBullets();
+  makeBullets();
+  bulletCollideWithTile();
   removeBullet();
   checkCollided();
   playerHealth();
   drawUpdate();
-  enemyRespawnRandom();
-  generateEnemy(); 
-  removeEnemy();
-  // generateCoins();
-  // coinsRespawnRandom();
 }
 
 function gameStatus() { // If game over, reset everything
@@ -354,11 +350,11 @@ function playerHealth() {
 }
 
 // Get values from bullet class and use them in bullets array
-function checkBullets() {
+function makeBullets() {
   for (let i=0; i<bullets.length; i++) {
     bullets[i].displayBullets();
     bullets[i].shootBullets();
-    bullets[i].update();  
+    bullets[i].collideWithTile();
   }
 }
 
@@ -384,6 +380,18 @@ function removeBullet() {
     }
   }
 }
+
+function bulletCollideWithTile() {
+  for (let i = 0; i<bullets.length; i++) {
+    if (bullets[i].isMoveable === true) {
+      bullets[i].update();  
+    }
+    else {
+      bullets.splice(i, 1);
+    }
+  }
+}
+
 
 // Make a new enemy every three seconds and push it to array 
 function generateEnemy() {

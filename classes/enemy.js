@@ -44,11 +44,4 @@ class Enemy {
       this.playerIsCollide = false;
     }
   }  
-
-   // Check the tile if the tile is walkable
-  collideWithTile() {
-    let gridX = floor((this.enemyX)/grid.cellW);
-    let gridY = floor(this.enemyY/grid.cellH); 
-    console.log(gridX, gridY);
-  }
 }

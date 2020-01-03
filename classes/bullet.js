@@ -5,7 +5,7 @@ class Bullet {
     this.bulletDX = 0;
     this.bulletDY = 0;
     this.angle = 0;
-    this.isMove = false;
+    this.isMoveable = false;
   }
 
   // Update x and y values with dx and dy
@@ -19,6 +19,17 @@ class Bullet {
     this.angle = player.aimAngle;
     this.bulletDX = player.bulletDistance * cos(this.angle)*8;
     this.bulletDY = player.bulletDistance * sin(this.angle)*8;
+  }
+
+  collideWithTile() {
+    let gridX = floor(this.bulletX/grid.cellW);
+    let gridY = floor(this.bulletY/grid.cellH); 
+    if (grid.myMap[gridY][gridX] === "." || grid.myMap[gridY][gridX] === "G") {
+      this.isMoveable = true;
+    }
+    else {
+      this.isMoveable = false;
+    }
   }
 } 
 
