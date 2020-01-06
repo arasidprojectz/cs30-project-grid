@@ -29,6 +29,7 @@ class Player {
   }
 
   // Move using WASD && can not go off screen
+  // Check if the path is walkable or not
   movePlayer() { 
     if (keyIsDown(this.D) && this.playerX < width - this.playerWidth) {
       this.direction = "right";

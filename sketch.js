@@ -1,11 +1,11 @@
-// CS30 Project - State Variable
+// CS30 Project - Grid Based Assignment
 // Al Rasid Mamun
-// Oct 10, 2019
-// Extra for Experts:
+// Jan 6, 2020
+
 
 let images, sounds, strings;
 let gameSetup, states, bulletList;
-let player, enemy = [], bullets = [], coins = [];
+let player, enemy = [], bullets = [], coins = [], grid;
 const WIDTH = 1050; const HEIGHT = 750;
 
 function preload() {
@@ -23,8 +23,6 @@ function preload() {
     playerImg: loadImage("assets/images/players/gunfighter.png"),
     bulletImg: loadImage("assets/images/items/fire_ball.png"),
     boomerangImg: loadImage("assets/images/items/boomerang.png"),
-    enemyImg: loadImage("assets/images/enemy/enemy.png"),
-    coinImg: loadImage("assets/images/coin/coin.png"),
     grassImg: loadImage("assets/images/tiles/grass.png"),
     groundImg: loadImage("assets/images/tiles/ground.jpg"),
     stoneImg: loadImage("assets/images/tiles/stone.png"),
@@ -50,6 +48,7 @@ function setup() {
   createCanvas(WIDTH, HEIGHT);
   // Make a new player at center of screen
   player = new Player(width/2, height/2);
+  // Make a new grid
   grid = new Grid();
 
   // Button and Cursor Values
@@ -60,7 +59,9 @@ function setup() {
     buttonX: width/2, 
     buttonY: height/2,
     buttonW: 400,
-    buttonH: 200
+    buttonH: 200,
+    respawnBullet: 0,
+    bulletTime: 400
   };
 
   // State Values
@@ -100,11 +101,6 @@ function draw() {
     gameRun();
     displayGameCursor();
   }
-
-  if (states.game === "gameOver") {
-    background(images.gameBG);
-    gameStatus();
-  } 
 }
  
 // Mouse Cursor
@@ -152,37 +148,22 @@ function gameGuide() { // Show guide, pressed esc to exit
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(30);
-  text("VIROTTACK", width/2, height/2 - 100);
-  text("Move Player Using WASD, Mouse to Aim, Left Mouse Button to Shoot!", width/2, height/2 - 50);
-  text("Avoid VIRUS, if player collide with them, player health will decrease by one", width/2, height/2);
-  text("PRESS ESC TO EXIT!", width/2, height/2 + 50);
+  text("VIROTTACK", width/2, height/2 - 80);
+  text("Move Player Using WASD", width/2, height/2 - 40);
+  text("Mouse to Aim", width/2, height/2);
+  text("Left Mouse Button to Shoot", width/2, height/2 + 40);
+  text("PRESS ESC TO EXIT!", width/2, height/2 + 80);
   if (keyIsPressed === true) {
     states.game = "toStart";
   }
 }
 
 function gameRun() { // Runs the game
+  makeGrid();
   makePlayer();
   makeBullets();
   bulletCollideWithTile();
   removeBullet();
-}
-
-function gameStatus() { // If game over, reset everything
-  fill(255);
-  textSize(40);
-  text("Coin Score: " + setScore.coinScore, width/2, height/2);
-  text("Kills Score: " + setScore.killScore, width/2, height/2 + 80);
-  text("PRESS SPACE TO RESTART!", width/2, height/2 + 150);
-  if (keyIsPressed && keyCode === 32) { 
-    states.game = "runGame";
-    player = new Player(width/2, height/2);
-    enemy = [];
-    coins = [];
-    setScore.coinScore = 0;
-    setScore.killScore = 0;
-    setScore.playerHP = 10;
-  } 
 }
 
 function makeButton() { // Display buttons, if mouse pressed change state
@@ -318,9 +299,9 @@ function makeBullets() {
 // Make a new bullet, if mouse pressed and push it to array 
 function mousePressed() {
   if (states.game === "runGame") {
-    if (millis() > setTime.respawnBullet + setTime.bulletTime) {
+    if (millis() > gameSetup.respawnBullet + gameSetup.bulletTime) {
       bulletOptions();
-      setTime.respawnBullet = millis();
+      gameSetup.respawnBullet = millis();
       sounds.shootSound.setVolume(0.5);
       sounds.shootSound.play();
       sounds.shootSound.playMode("restart");
@@ -338,6 +319,7 @@ function removeBullet() {
   }
 }
 
+// Delete bullet if collide with not moveable tiles
 function bulletCollideWithTile() {
   for (let i = 0; i<bullets.length; i++) {
     if (bullets[i].isMoveable === true) {
@@ -347,4 +329,9 @@ function bulletCollideWithTile() {
       bullets.splice(i, 1);
     }
   }
+}
+
+// Get values from grid class and use them
+function makeGrid(){ 
+  grid.makeTileMap(grid.cols, grid.rows);
 }
