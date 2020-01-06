@@ -153,7 +153,7 @@ function gameGuide() { // Show guide, pressed esc to exit
   text("Mouse to Aim", width/2, height/2);
   text("Left Mouse Button to Shoot", width/2, height/2 + 40);
   text("PRESS ESC TO EXIT!", width/2, height/2 + 80);
-  if (keyIsPressed === true) {
+  if (keyIsPressed && keyCode === 27) {
     states.game = "toStart";
   }
 }
