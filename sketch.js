@@ -4,9 +4,8 @@
 // Extra for Experts:
 
 let images, sounds, strings;
-let gameSetup, setScore, setTime, setBoolean;
-let states, bulletList;
-let player, enemy = [], bullets = [], coins = [], grid;
+let gameSetup, states, bulletList;
+let player, enemy = [], bullets = [], coins = [];
 const WIDTH = 1050; const HEIGHT = 750;
 
 function preload() {
@@ -74,29 +73,6 @@ function setup() {
   bulletList = new Array();
   bulletList[0] = "fireBall";
   bulletList[1] = "boomerang";
-
-  // Score Values
-  setScore = { 
-    playerHP: 10,
-    coinScore: 0,
-    killScore: 0
-  };
-
-  // Time Values
-  setTime = { 
-    respawnEnemy: 0,
-    respawnCoin: 0,
-    respawnBullet: 0,
-    bulletTime: 400,
-    enemyTime: 4000,
-    coinTime: 4000
-  };
-
-  // Booleans Values
-  setBoolean = {
-    bulletInteract: false,
-    bulletIsCollide: false,
-  };
 }
 
 function draw() {
@@ -130,12 +106,6 @@ function draw() {
     gameStatus();
   } 
 }
-
-// Tile Map
-function makeGrid(){
-  grid.makeTileMap(grid.cols, grid.rows);
-}
-
  
 // Mouse Cursor
 function mouseMoved() { // if mouse move, cursorX and cursorY to mouseX and mouseY
@@ -192,14 +162,10 @@ function gameGuide() { // Show guide, pressed esc to exit
 }
 
 function gameRun() { // Runs the game
-  makeGrid();
   makePlayer();
   makeBullets();
   bulletCollideWithTile();
   removeBullet();
-  checkCollided();
-  playerHealth();
-  drawUpdate();
 }
 
 function gameStatus() { // If game over, reset everything
@@ -270,7 +236,7 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
     rectMode(CENTER);
     rect(bX - 100, bY, rectSize, rectSize);
     imageMode(CENTER);
-    image(images.bulletImg, bX - 100, bY, bSize, bSize);
+    image(images.bulletImg, bX - 100, bY, bSize*1.2, bSize*1.2);
     pop();
     if (mouseIsPressed) {
       states.attack = bulletList[0];
@@ -317,7 +283,7 @@ function displayOptions() { // Display bullet options, if clicked, set bullet to
     rectMode(CENTER);
     rect(bX + 100, bY, rectSize, rectSize);
     imageMode(CENTER);
-    image(images.boomerangImg, bX + 100, bY, bSize*1.5, bSize*1.5);
+    image(images.boomerangImg, bX + 100, bY, bSize*1.25, bSize*1.25);
     pop();
   }
 }
@@ -332,21 +298,12 @@ function bulletOptions() {
   }
 }
 
-
 // Get values from player class and use them in player
 function makePlayer() {
   player.displayPlayer();
   player.movePlayer();
   player.angleOfBullets(mouseY, mouseX);
   player.collideWithTile();
-}
-
-// If player health less than or equal to zero, game over
-function playerHealth() {
-  if (setScore.playerHP <= 0) {
-    sounds.gameOverSound.play();
-    states.game = "gameOver";
-  }
 }
 
 // Get values from bullet class and use them in bullets array
@@ -391,79 +348,3 @@ function bulletCollideWithTile() {
     }
   }
 }
-
-
-// Make a new enemy every three seconds and push it to array 
-function generateEnemy() {
-  if (millis() > setTime.respawnEnemy + setTime.enemyTime) {
-    enemy.push(new Enemy(random(width - player.playerX), random(height - player.playerY), player.playerX, player.playerY));  
-    setTime.respawnEnemy = millis();
-  }  
-}
-
-// Get Values from enemy class and use them in enemy array
-function enemyRespawnRandom() {
-  for (let i=0; i<enemy.length; i++) {
-    enemy[i].displayEnemy();
-    enemy[i].updatePosition();
-    enemy[i].collideWithTile();
-    enemy[i].interactWithPlayer();
-  } 
-}
-
-// Enemy collide with player, delete enemy
-function removeEnemy() {
-  for (let i=0; i<enemy.length; i++) {
-    if (enemy[i].playerInteract === true) {
-      enemy.splice(i,1);
-    }
-  }
-}
-
-// Check if bullet and enemy collide, if true, delete bullet and enemy that collided
-function checkCollided() {
-  for (let e=0; e<enemy.length; e++) { 
-    for (let b=0; b<bullets.length; b++) {
-      setBoolean.bulletInteract = collideRectRect(enemy[e].enemyX, enemy[e].enemyY, enemy[e].enemySize, enemy[e].enemySize,
-        bullets[b].bulletX, bullets[b].bulletY, bullets[b].radius, bullets[b].radius);
-      if (setBoolean.bulletInteract === true && !setBoolean.bulletIsCollide) {
-        setBoolean.bulletIsCollide = true;
-        bullets.splice(b, 1);
-        enemy.splice(e, 1);
-        setScore.killScore += 1;
-      } 
-      if (setBoolean.bulletIsCollide === true && !setBoolean.bulletInteract) {
-        setBoolean.bulletIsCollide = false;
-      }
-    }
-  }
-}
-  
-// Make a new coins every six seconds and push it to array 
-function generateCoins() {
-  if (millis() > setTime.respawnCoin + setTime.coinTime) {
-    coins.push(new Coin(random(width - player.playerX), random(height - player.playerY)));
-    setTime.respawnCoin = millis();
-  }
-} 
-  
-// Get Values from coin class and use them in coin array
-function coinsRespawnRandom() {
-  for (let i=0; i<coins.length; i++) {
-    coins[i].displayCoin();
-    coins[i].collisionWithPlayer();
-    if (coins[i].isCollide === true) {
-      coins.splice(i, 1);
-    }
-  }
-}
-
-// Text that shows player health and keep tracks
-function drawUpdate() {
-  fill(255);
-  textSize(40);
-  text("Hp: " + setScore.playerHP, width/2 - 200, height - 20);
-  text("Coins: " + setScore.coinScore, width/2, height - 20);
-  text("Kills: " + setScore.killScore, width/2 + 200, height - 20);
-}
-
